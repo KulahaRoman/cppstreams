@@ -1,0 +1,3 @@
+[submodule "libs/cpputils"]
+	path = libs/cpputils
+	url = https://github.com/KulahaRoman/cpputils.git
