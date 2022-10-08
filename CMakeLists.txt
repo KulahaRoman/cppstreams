@@ -127,18 +127,18 @@ set(HEADERS # Interfaces
 			src/cppstreams/encryptedstreams/abstracts/abstractencryptedstream.h
 )
 
-add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
-
 set(BOOST_ROOT D:/Development/CXX/Libraries/Boost)
 
 find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
 
 set(Boost_USE_STATIC_LIBS ON) 
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME ON)
 
+add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+
 add_subdirectory(libs/cpputils)
 target_link_libraries(${PROJECT_NAME} PUBLIC cpputils)
 
+target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
