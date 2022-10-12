@@ -13,10 +13,10 @@ void AbstractBufferedOutputStream::writePortion(const unsigned char* data,
   auto dataPointers = calculateWriteDataPointers(
       writeBuffer.size(), writeBufferPos, size, writtenDataSize);
 
-  std::copy(data + dataPointers.first, data + dataPointers.second,
-            writeBuffer.data() + writeBufferPos);
-
   auto portionSize = dataPointers.second - dataPointers.first;
+
+  std::copy(data + writtenDataSize, data + writtenDataSize + portionSize,
+            writeBuffer.data() + writeBufferPos);
 
   writeBufferPos += portionSize;
   writtenDataSize += portionSize;
@@ -39,7 +39,7 @@ AbstractBufferedOutputStream::calculateWriteDataPointers(uint64_t bufferSize,
                          ? remainingDataSize
                          : remainingBufferSpace;
 
-  auto beginPointer = bufferPos + doneSize;
+  auto beginPointer = bufferPos;
   auto endPointer = beginPointer + portionSize;
 
   return std::make_pair(beginPointer, endPointer);

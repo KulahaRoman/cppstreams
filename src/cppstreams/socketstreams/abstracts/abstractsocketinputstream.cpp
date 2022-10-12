@@ -39,10 +39,6 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
   return bytesRead;
 }
 
-uint64_t AbstractSocketInputStream::available() {
-  return static_cast<uint64_t>(socket.available());
-}
-
 uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
   if (!nBytes) {
     return nBytes;
@@ -77,4 +73,8 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
   }
 
   return bytesSkipped;
+}
+
+uint64_t AbstractSocketInputStream::available() {
+  return static_cast<uint64_t>(socket.available());
 }

@@ -7,6 +7,6 @@ uint64_t SocketInputStream::Read(unsigned char* data, uint64_t size) {
   return read(data, size);
 }
 
-uint64_t SocketInputStream::Available() { return available(); }
+uint64_t SocketInputStream::Skip(uint64_t size) { return skip(size); }
 
-uint64_t SocketInputStream::Skip(uint64_t nBytes) { return skip(nBytes); }
+uint64_t SocketInputStream::Available() { return available(); }

@@ -13,6 +13,6 @@ uint64_t SocketStream::Read(unsigned char* data, uint64_t size) {
   return read(data, size);
 }
 
-uint64_t SocketStream::Available() { return available(); }
+uint64_t SocketStream::Skip(uint64_t size) { return skip(size); }
 
-uint64_t SocketStream::Skip(uint64_t nBytes) { return skip(nBytes); }
+uint64_t SocketStream::Available() { return available(); }

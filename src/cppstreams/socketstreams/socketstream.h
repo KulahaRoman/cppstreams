@@ -10,8 +10,8 @@ class SocketStream : private AbstractSocketInputStream,
   SocketStream(boost::asio::ip::tcp::socket&& socket);
 
   uint64_t Read(unsigned char* data, uint64_t size) override;
+  uint64_t Skip(uint64_t size) override;
   uint64_t Available() override;
-  uint64_t Skip(uint64_t nBytes) override;
   uint64_t Write(const unsigned char* data, uint64_t size) override;
   uint64_t Flush() override;
 };

@@ -8,6 +8,8 @@
 class AbstractAsyncFileInputStream : protected AbstractFileInputStream {
  protected:
   void read(unsigned char* data, uint64_t size,
-            const std::function<void(uint64_t)>& callback);
-  void skip(uint64_t nBytes, const std::function<void(uint64_t)>& callback);
+            const std::function<void(uint64_t)>& onSuccess,
+            const std::function<void(const Exception&)>& onFailure);
+  void skip(uint64_t size, const std::function<void(uint64_t)>& onSuccess,
+            const std::function<void(const Exception&)>& onFailure);
 };

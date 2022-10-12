@@ -8,8 +8,8 @@ class AbstractFileInputStream : virtual public AbstractFileStream {
   AbstractFileInputStream();
 
   uint64_t read(unsigned char* data, uint64_t size);
+  uint64_t skip(uint64_t size);
   uint64_t available();
-  uint64_t skip(uint64_t nBytes);
 
  protected:
   std::streampos gpos;

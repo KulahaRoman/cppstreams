@@ -5,23 +5,30 @@ AsyncBufferedStream::AsyncBufferedStream(
     : AbstractAsyncBufferedInputStream(stream, bufferSize),
       AbstractAsyncBufferedOutputStream(stream, bufferSize) {}
 
-void AsyncBufferedStream::Write(const unsigned char* data, uint64_t size,
-                                const std::function<void(uint64_t)>& callback) {
-  write(data, size, callback);
+void AsyncBufferedStream::Read(
+    unsigned char* data, uint64_t size,
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  read(data, size, onSuccess, onFailure);
 }
 
-void AsyncBufferedStream::Read(unsigned char* data, uint64_t size,
-                               const std::function<void(uint64_t)>& callback) {
-  read(data, size, callback);
+void AsyncBufferedStream::Skip(
+    uint64_t nBytes, const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  skip(nBytes, onSuccess, onFailure);
 }
 
 uint64_t AsyncBufferedStream::Available() { return available(); }
 
-void AsyncBufferedStream::Skip(uint64_t nBytes,
-                               const std::function<void(uint64_t)>& callback) {
-  skip(nBytes, callback);
+void AsyncBufferedStream::Write(
+    const unsigned char* data, uint64_t size,
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  write(data, size, onSuccess, onFailure);
 }
 
-void AsyncBufferedStream::Flush(const std::function<void(uint64_t)>& callback) {
-  flush(callback);
+void AsyncBufferedStream::Flush(
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  flush(onSuccess, onFailure);
 }

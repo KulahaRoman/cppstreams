@@ -48,13 +48,13 @@ uint64_t AbstractFileInputStream::available() {
   return endGPos - currentGPos;
 }
 
-uint64_t AbstractFileInputStream::skip(uint64_t nBytes) {
-  if (!nBytes) {
-    return nBytes;
+uint64_t AbstractFileInputStream::skip(uint64_t size) {
+  if (!size) {
+    return size;
   }
 
   auto bytesAvailable = available();
-  if (bytesAvailable < nBytes) {
+  if (bytesAvailable < size) {
     throw RuntimeException(
 #if defined(UNICODE) || defined(_UNICODE)
         L"Failed to skip bytes (insufficient bytes available)."
@@ -64,12 +64,9 @@ uint64_t AbstractFileInputStream::skip(uint64_t nBytes) {
     );
   }
 
-  auto bytesSkipped = 0ull;
-
   try {
-    auto newGPos = gpos + std::streampos(nBytes);
+    auto newGPos = gpos + std::streampos(size);
     file.seekg(newGPos, std::ios::beg);
-    bytesSkipped = newGPos;
     gpos = newGPos;
   } catch (...) {
     throw RuntimeException(
@@ -81,5 +78,5 @@ uint64_t AbstractFileInputStream::skip(uint64_t nBytes) {
     );
   }
 
-  return bytesSkipped;
+  return size;
 }

@@ -6,11 +6,13 @@ AsyncSocketOutputStream::AsyncSocketOutputStream(
 
 void AsyncSocketOutputStream::Write(
     const unsigned char* data, uint64_t size,
-    const std::function<void(uint64_t)>& callback) {
-  write(data, size, callback);
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  write(data, size, onSuccess, onFailure);
 }
 
 void AsyncSocketOutputStream::Flush(
-    const std::function<void(uint64_t)>& callback) {
-  flush(callback);
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  flush(onSuccess, onFailure);
 }

@@ -13,8 +13,8 @@ class AbstractSyncBufferedInputStream : protected AbstractBufferedInputStream {
 
  protected:
   uint64_t read(unsigned char* data, uint64_t size);
+  uint64_t skip(uint64_t size);
   uint64_t available();
-  uint64_t skip(uint64_t nBytes);
 
  private:
   std::shared_ptr<IInputStream> stream;

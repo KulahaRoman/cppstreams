@@ -25,29 +25,8 @@ uint64_t AbstractSyncBufferedInputStream::read(unsigned char* data,
   return readDataSize;
 }
 
-uint64_t AbstractSyncBufferedInputStream::available() {
-  return stream->Available();
-}
-
-uint64_t AbstractSyncBufferedInputStream::skip(uint64_t nBytes) {
-  if (nBytes > stream->Available()) {
-    throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-        L"Failed to skip bytes (insufficient bytes available)."
-#else
-        "Failed to skip bytes (insufficient bytes available)."
-#endif
-    );
-  }
-
+uint64_t AbstractSyncBufferedInputStream::skip(uint64_t size) {
   auto bufferSize = static_cast<uint64_t>(readBuffer.size());
-
-  //           buffer
-  //  ._______________________.
-  //  |_______________________|
-  //          |
-  //       position
-  auto currentBufferPosition = readBufferPos % bufferSize;
 
   //            buffer
   //  ._______________________.
@@ -55,27 +34,42 @@ uint64_t AbstractSyncBufferedInputStream::skip(uint64_t nBytes) {
   //          |_______________|
   //      position    |
   //               remaining
-  auto currentBufferRemaining = bufferSize - currentBufferPosition;
+  auto currentBufferRemaining = bufferSize - readBufferPos;
 
-  if (nBytes >= currentBufferRemaining) {
+  if (size >= currentBufferRemaining) {
     readBufferCached = false;
 
     // Calculate how much bytes we should skip (nBytesToSkip) before reading
     // certain part of source stream.
 
-    auto nBytesToRead = nBytes - currentBufferRemaining;
-    auto nBuffers = nBytesToRead / bufferSize;
+    auto nBytesToRead = size - currentBufferRemaining;
+    auto nBuffers = nBytesToRead / bufferSize + 1ull;
     auto nBytesToSkip = nBuffers * bufferSize;
 
-    stream->Skip(nBytesToSkip);
+    if (nBytesToSkip + bufferSize > stream->Available()) {
+      throw RuntimeException(
+#if defined(UNICODE) || defined(_UNICODE)
+          L"Failed to skip bytes (insufficient bytes available)."
+#else
+          "Failed to skip bytes (insufficient bytes available)."
+#endif
+      );
+    }
 
+    stream->Skip(nBytesToSkip);
     stream->Read(readBuffer.data(), bufferSize);
+
     processReadBuffer();
 
     readBufferCached = true;
+    readBufferPos = nBytesToRead % bufferSize;
+  } else {
+    readBufferPos += size;
   }
 
-  readBufferPos += nBytes;
+  return size;
+}
 
-  return nBytes;
+uint64_t AbstractSyncBufferedInputStream::available() {
+  return stream->Available();
 }

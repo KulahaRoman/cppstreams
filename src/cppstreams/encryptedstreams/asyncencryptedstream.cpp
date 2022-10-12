@@ -7,27 +7,32 @@ AsyncEncryptedStream::AsyncEncryptedStream(
       AsyncEncryptedInputStream(stream, encryptor->GetBlockSize()),
       AsyncEncryptedOutputStream(stream, encryptor->GetBlockSize()) {}
 
-void AsyncEncryptedStream::Read(unsigned char* data, uint64_t size,
-                                const std::function<void(uint64_t)>& callback) {
-  AsyncEncryptedInputStream::Read(data, size, callback);
+void AsyncEncryptedStream::Read(
+    unsigned char* data, uint64_t size,
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  AsyncEncryptedInputStream::Read(data, size, onSuccess, onFailure);
+}
+
+void AsyncEncryptedStream::Skip(
+    uint64_t nBytes, const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  AsyncEncryptedInputStream::Skip(nBytes, onSuccess, onFailure);
 }
 
 uint64_t AsyncEncryptedStream::Available() {
   return AsyncEncryptedInputStream::Available();
 }
 
-void AsyncEncryptedStream::Skip(uint64_t nBytes,
-                                const std::function<void(uint64_t)>& callback) {
-  AsyncEncryptedInputStream::Skip(nBytes, callback);
-}
-
 void AsyncEncryptedStream::Write(
     const unsigned char* data, uint64_t size,
-    const std::function<void(uint64_t)>& callback) {
-  AsyncEncryptedOutputStream::Write(data, size, callback);
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  AsyncEncryptedOutputStream::Write(data, size, onSuccess, onFailure);
 }
 
 void AsyncEncryptedStream::Flush(
-    const std::function<void(uint64_t)>& callback) {
-  AsyncEncryptedOutputStream::Flush(callback);
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  AsyncEncryptedOutputStream::Flush(onSuccess, onFailure);
 }
