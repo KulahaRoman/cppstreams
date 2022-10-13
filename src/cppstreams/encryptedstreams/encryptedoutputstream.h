@@ -5,11 +5,11 @@
 class EncryptedOutputStream : public BufferedOutputStream,
                               virtual protected AbstractEncryptedStream {
  public:
-  EncryptedOutputStream(const std::shared_ptr<IEncryptor>& encryptor,
-                        const std::shared_ptr<IOutputStream>& stream);
+  EncryptedOutputStream(const std::shared_ptr<Encryptor>& encryptor,
+                        const std::shared_ptr<OutputStream>& stream);
 
  protected:
-  EncryptedOutputStream(const std::shared_ptr<IOutputStream>& stream,
+  EncryptedOutputStream(const std::shared_ptr<OutputStream>& stream,
                         uint64_t bufferSize);
 
  private:

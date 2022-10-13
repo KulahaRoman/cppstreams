@@ -1,13 +1,22 @@
 #pragma once
-#include "../iinputstream.h"
+#include "../inputstream.h"
 #include "abstracts/abstractsocketinputstream.h"
 
 class SocketInputStream : private AbstractSocketInputStream,
-                          public IInputStream {
+                          public InputStream {
  public:
   SocketInputStream(boost::asio::ip::tcp::socket&& socket);
 
   uint64_t Read(unsigned char* data, uint64_t size) override;
+  void Read(unsigned char* data, uint64_t size,
+            const std::function<void(uint64_t)>& onSuccess,
+            const std::function<void(const Exception&)>& onFailure =
+                nullptr) override;
+
   uint64_t Skip(uint64_t size) override;
+  void Skip(uint64_t size, const std::function<void(uint64_t)>& onSuccess,
+            const std::function<void(const Exception&)>& onFailure =
+                nullptr) override;
+
   uint64_t Available() override;
 };

@@ -1,15 +1,15 @@
 #pragma once
-#include <cpputils/encryptors/iencryptor.h>
+#include <cpputils/encryptors/encryptor.h>
 
 #include <memory>
 
 class AbstractEncryptedStream {
  protected:
   AbstractEncryptedStream();
-  AbstractEncryptedStream(const std::shared_ptr<IEncryptor>& encryptor);
+  AbstractEncryptedStream(const std::shared_ptr<Encryptor>& encryptor);
 
-  std::shared_ptr<IEncryptor> GetEncryptor() const;
+  std::shared_ptr<Encryptor> GetEncryptor() const;
 
  protected:
-  std::shared_ptr<IEncryptor> encryptor;
+  std::shared_ptr<Encryptor> encryptor;
 };

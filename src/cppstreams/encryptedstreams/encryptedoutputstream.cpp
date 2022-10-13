@@ -1,12 +1,12 @@
 #include "encryptedoutputstream.h"
 
 EncryptedOutputStream::EncryptedOutputStream(
-    const std::shared_ptr<IOutputStream>& stream, uint64_t bufferSize)
+    const std::shared_ptr<OutputStream>& stream, uint64_t bufferSize)
     : BufferedOutputStream(stream, bufferSize) {}
 
 EncryptedOutputStream::EncryptedOutputStream(
-    const std::shared_ptr<IEncryptor>& encryptor,
-    const std::shared_ptr<IOutputStream>& stream)
+    const std::shared_ptr<Encryptor>& encryptor,
+    const std::shared_ptr<OutputStream>& stream)
     : BufferedOutputStream(stream, encryptor->GetBlockSize()),
       AbstractEncryptedStream(encryptor) {}
 

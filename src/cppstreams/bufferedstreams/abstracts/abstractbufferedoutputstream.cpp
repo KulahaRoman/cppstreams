@@ -1,8 +1,106 @@
 #include "abstractbufferedoutputstream.h"
 
-AbstractBufferedOutputStream::AbstractBufferedOutputStream(uint64_t bufferSize)
-    : writeBuffer(static_cast<size_t>(bufferSize)) {
+AbstractBufferedOutputStream::AbstractBufferedOutputStream(
+    const std::shared_ptr<OutputStream>& stream, uint64_t bufferSize)
+    : stream(stream), writeBuffer(static_cast<size_t>(bufferSize)) {
   resetWriteBuffer();
+}
+
+uint64_t AbstractBufferedOutputStream::write(const unsigned char* data,
+                                             uint64_t size) {
+  auto writtenDataSize = 0ull;
+
+  while (writtenDataSize < size) {
+    writePortion(data, size, writtenDataSize);
+
+    if (writeBufferPos == writeBuffer.size()) {
+      processWriteBuffer();
+      stream->Write(writeBuffer.data(), writeBuffer.size());
+      resetWriteBuffer();
+    }
+  }
+
+  return writtenDataSize;
+}
+
+void AbstractBufferedOutputStream::write(
+    const unsigned char* data, uint64_t size,
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  write(data, size, 0ull, onSuccess, onFailure);
+}
+
+uint64_t AbstractBufferedOutputStream::flush() {
+  auto flushedBytes = 0ull;
+
+  if (writeBufferPos) {
+    processWriteBuffer();
+    flushedBytes = stream->Write(writeBuffer.data(), writeBuffer.size());
+    resetWriteBuffer();
+    return writeBuffer.size();
+  }
+
+  return flushedBytes;
+}
+
+void AbstractBufferedOutputStream::flush(
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  if (writeBufferPos) {
+    processWriteBuffer();
+    stream->Write(
+        writeBuffer.data(), writeBuffer.size(),
+        [this, onSuccess](auto bytesWritten) {
+          resetWriteBuffer();
+          if (onSuccess) {
+            onSuccess(bytesWritten);
+          }
+        },
+        [this, onFailure](const auto& exc) {
+          resetWriteBuffer();
+          if (onFailure) {
+            onFailure(exc);
+          }
+        });
+    return;
+  }
+
+  ThreadPool::AcceptTask([onSuccess] {
+    if (onSuccess) {
+      onSuccess(0ull);
+    }
+  });
+}
+
+void AbstractBufferedOutputStream::write(
+    const unsigned char* data, uint64_t size, uint64_t writtenDataSize,
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  while (writtenDataSize < size) {
+    writePortion(data, size, writtenDataSize);
+
+    if (writeBufferPos == writeBuffer.size()) {
+      processWriteBuffer();
+
+      stream->Write(
+          writeBuffer.data(), writeBuffer.size(),
+          [this, data, size, writtenDataSize, onSuccess, onFailure](auto) {
+            resetWriteBuffer();
+            write(data, size, writtenDataSize, onSuccess, onFailure);
+          },
+          [this, onFailure](const auto& exc) {
+            resetWriteBuffer();
+            if (onFailure) {
+              onFailure(exc);
+            }
+          });
+      return;
+    }
+  }
+
+  if (onSuccess) {
+    onSuccess(writtenDataSize);
+  }
 }
 
 void AbstractBufferedOutputStream::processWriteBuffer() {}

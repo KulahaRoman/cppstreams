@@ -1,0 +1,21 @@
+#pragma once
+#include <cpputils/exceptions/exception.h>
+
+#include <cstdint>
+#include <functional>
+
+class OutputStream {
+ public:
+  virtual uint64_t Write(const unsigned char* data, uint64_t size) = 0;
+  virtual void Write(
+      const unsigned char* data, uint64_t size,
+      const std::function<void(uint64_t)>& onSuccess,
+      const std::function<void(const Exception&)>& onFailure = nullptr) = 0;
+
+  virtual uint64_t Flush() = 0;
+  virtual void Flush(
+      const std::function<void(uint64_t)>& onSuccess,
+      const std::function<void(const Exception&)>& onFailure = nullptr) = 0;
+
+  virtual ~OutputStream() {}
+};

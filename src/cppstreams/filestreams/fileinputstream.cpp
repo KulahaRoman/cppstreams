@@ -15,6 +15,19 @@ uint64_t FileInputStream::Read(unsigned char* data, uint64_t size) {
   return read(data, size);
 }
 
-uint64_t FileInputStream::Available() { return available(); }
+void FileInputStream::Read(
+    unsigned char* data, uint64_t size,
+    const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  read(data, size, onSuccess, onFailure);
+}
 
 uint64_t FileInputStream::Skip(uint64_t nBytes) { return skip(nBytes); }
+
+void FileInputStream::Skip(
+    uint64_t size, const std::function<void(uint64_t)>& onSuccess,
+    const std::function<void(const Exception&)>& onFailure) {
+  skip(size, onSuccess, onFailure);
+}
+
+uint64_t FileInputStream::Available() { return available(); }

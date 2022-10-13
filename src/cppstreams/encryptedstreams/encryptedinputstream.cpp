@@ -1,12 +1,12 @@
 #include "encryptedinputstream.h"
 
 EncryptedInputStream::EncryptedInputStream(
-    const std::shared_ptr<IInputStream>& stream, uint64_t bufferSize)
+    const std::shared_ptr<InputStream>& stream, uint64_t bufferSize)
     : BufferedInputStream(stream, bufferSize) {}
 
 EncryptedInputStream::EncryptedInputStream(
-    const std::shared_ptr<IEncryptor>& encryptor,
-    const std::shared_ptr<IInputStream>& stream)
+    const std::shared_ptr<Encryptor>& encryptor,
+    const std::shared_ptr<InputStream>& stream)
     : BufferedInputStream(stream, encryptor->GetBlockSize()),
       AbstractEncryptedStream(encryptor) {}
 

@@ -1,11 +1,32 @@
 #pragma once
+#include <cpputils/exceptions/exceptions.h>
+#include <cpputils/threadpool/threadpool.h>
+
 #include <cstdint>
+#include <memory>
 #include <utility>
 #include <vector>
 
+#include "../../outputstream.h"
+
 class AbstractBufferedOutputStream {
  protected:
-  AbstractBufferedOutputStream(uint64_t bufferSize);
+  AbstractBufferedOutputStream(const std::shared_ptr<OutputStream>& stream,
+                               uint64_t bufferSize);
+
+  uint64_t write(const unsigned char* data, uint64_t size);
+  void write(const unsigned char* data, uint64_t size,
+             const std::function<void(uint64_t)>& onSuccess,
+             const std::function<void(const Exception&)>& onFailure);
+
+  uint64_t flush();
+  void flush(const std::function<void(uint64_t)>& onSuccess,
+             const std::function<void(const Exception&)>& onFailure);
+
+ private:
+  void write(const unsigned char* data, uint64_t size, uint64_t writtenDataSize,
+             const std::function<void(uint64_t)>& onSuccess,
+             const std::function<void(const Exception&)>& onFailure);
 
   virtual void processWriteBuffer();
   void writePortion(const unsigned char* data, uint64_t size,
@@ -19,4 +40,7 @@ class AbstractBufferedOutputStream {
  protected:
   std::vector<unsigned char> writeBuffer;
   uint64_t writeBufferPos;
+
+ private:
+  std::shared_ptr<OutputStream> stream;
 };
