@@ -7,14 +7,7 @@ class FileStream : private AbstractFileInputStream,
                    private AbstractFileOutputStream,
                    public Stream {
  public:
-  FileStream(const
-#if defined(UNICODE) || defined(_UNICODE)
-             std::wstring
-#else
-             std::string
-#endif
-                 & file,
-             bool binary);
+  FileStream(const std::string& file, bool binary);
 
   uint64_t Read(unsigned char* data, uint64_t size) override;
   void Read(unsigned char* data, uint64_t size,

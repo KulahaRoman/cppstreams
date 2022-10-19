@@ -13,13 +13,7 @@ uint64_t AbstractFileOutputStream::write(const unsigned char* data,
   try {
     file.write(reinterpret_cast<const char*>(data), size);
   } catch (...) {
-    throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-        L"Failed to write bytes (IO error)."
-#else
-        "Failed to write bytes (IO error)."
-#endif
-    );
+    throw RuntimeException("Failed to write bytes (IO error).");
   }
 
   ppos += size;
@@ -47,12 +41,7 @@ void AbstractFileOutputStream::write(
 
 uint64_t AbstractFileOutputStream::flush() {
   throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-      L"Unsupported stream method (Flush() for non-bufered stream)."
-#else
-      "Unsupported stream method (Flush() for non-bufered stream)."
-#endif
-  );
+      "Unsupported stream method (Flush() for non-bufered stream).");
   return 0ull;
 }
 

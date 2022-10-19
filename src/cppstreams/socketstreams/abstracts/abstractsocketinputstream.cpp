@@ -8,12 +8,7 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
   uint64_t bytesAvailable = available();
   if (bytesAvailable < size) {
     throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-        L"Failed to read bytes (insufficient bytes available)."
-#else
-        "Failed to read bytes (insufficient bytes available)."
-#endif
-    );
+        "Failed to read bytes (insufficient bytes available).");
   }
 
   uint64_t bytesRead = 0ull;
@@ -25,13 +20,7 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
     bytesRead = boost::asio::read(
         socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()));
   } catch (...) {
-    throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-        L"Failed to read bytes (IO error)."
-#else
-        "Failed to read bytes (IO error)."
-#endif
-    );
+    throw RuntimeException("Failed to read bytes (IO error).");
   }
 
   std::copy(tempBuffer->data(), tempBuffer->data() + tempBuffer->size(), data);
@@ -57,12 +46,7 @@ void AbstractSocketInputStream::read(
     ThreadPool::AcceptTask([onFailure] {
       if (onFailure) {
         onFailure(RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-            L"Failed to read bytes (insufficient bytes available)."
-#else
-            "Failed to read bytes (insufficient bytes available)."
-#endif
-            ));
+            "Failed to read bytes (insufficient bytes available)."));
       }
     });
     return;
@@ -78,13 +62,7 @@ void AbstractSocketInputStream::read(
         if (error) {
           ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
-              onFailure(RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-                  L"Failed to read bytes (IO error)."
-#else
-                  "Failed to read bytes (IO error)."
-#endif
-                  ));
+              onFailure(RuntimeException("Failed to read bytes (IO error)."));
             }
           });
           return;
@@ -109,12 +87,7 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
   uint64_t bytesAvailable = available();
   if (bytesAvailable < nBytes) {
     throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-        L"Failed to skip bytes (insufficient bytes available)."
-#else
-        "Failed to skip bytes (insufficient bytes available)."
-#endif
-    );
+        "Failed to skip bytes (insufficient bytes available).");
   }
 
   uint64_t bytesSkipped = 0ull;
@@ -125,13 +98,7 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
     bytesSkipped = boost::asio::read(
         socket, boost::asio::buffer(tempBuffer.data(), tempBuffer.size()));
   } catch (...) {
-    throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-        L"Failed to skip bytes (IO error)."
-#else
-        "Failed to skip bytes (IO error)."
-#endif
-    );
+    throw RuntimeException("Failed to skip bytes (IO error).");
   }
 
   return bytesSkipped;
@@ -154,12 +121,7 @@ void AbstractSocketInputStream::skip(
     ThreadPool::AcceptTask([onFailure] {
       if (onFailure) {
         onFailure(RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-            L"Failed to skip bytes (insufficient bytes available)."
-#else
-            "Failed to skip bytes (insufficient bytes available)."
-#endif
-            ));
+            "Failed to skip bytes (insufficient bytes available)."));
       }
     });
     return;
@@ -174,13 +136,7 @@ void AbstractSocketInputStream::skip(
         if (error) {
           ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
-              onFailure(RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-                  L"Failed to skip bytes (IO error)."
-#else
-                  "Failed to skip bytes (IO error)."
-#endif
-                  ));
+              onFailure(RuntimeException("Failed to skip bytes (IO error)."));
             }
           });
           return;

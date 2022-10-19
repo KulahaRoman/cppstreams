@@ -56,12 +56,7 @@ uint64_t AbstractBufferedInputStream::skip(uint64_t size) {
 
     if (nBytesToSkip + bufferSize > stream->Available()) {
       throw RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-          L"Failed to skip bytes (insufficient bytes available)."
-#else
-          "Failed to skip bytes (insufficient bytes available)."
-#endif
-      );
+          "Failed to skip bytes (insufficient bytes available).");
     }
 
     stream->Skip(nBytesToSkip);
@@ -105,12 +100,7 @@ void AbstractBufferedInputStream::skip(
       ThreadPool::AcceptTask([onFailure] {
         if (onFailure) {
           onFailure(RuntimeException(
-#if defined(UNICODE) || defined(_UNICODE)
-              L"Failed to skip bytes (insufficient bytes available)."
-#else
-              "Failed to skip bytes (insufficient bytes available)."
-#endif
-              ));
+              "Failed to skip bytes (insufficient bytes available)."));
         }
       });
       return;

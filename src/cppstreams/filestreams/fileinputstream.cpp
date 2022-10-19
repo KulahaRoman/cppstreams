@@ -1,13 +1,6 @@
 #include "fileinputstream.h"
 
-FileInputStream::FileInputStream(const
-#if defined(UNICODE) || defined(_UNICODE)
-                                 std::wstring
-#else
-                                 std::string
-#endif
-                                     & file,
-                                 bool binary)
+FileInputStream::FileInputStream(const std::string& file, bool binary)
     : AbstractFileStream(file, std::ios::in | (binary ? std::ios::binary : 0)) {
 }
 

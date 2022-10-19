@@ -4,14 +4,7 @@
 
 class FileOutputStream : private AbstractFileOutputStream, public OutputStream {
  public:
-  FileOutputStream(const
-#if defined(UNICODE) || defined(_UNICODE)
-                   std::wstring
-#else
-                   std::string
-#endif
-                       & file,
-                   bool binary);
+  FileOutputStream(const std::string& file, bool binary);
 
   uint64_t Write(const unsigned char* data, uint64_t size) override;
   void Write(const unsigned char* data, uint64_t size,

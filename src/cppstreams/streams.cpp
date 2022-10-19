@@ -33,23 +33,6 @@ std::unique_ptr<Stream> Streams::GetBufferedStream(
   return std::make_unique<BufferedStream>(stream, bufferSize);
 }
 
-#if defined(UNICODE) || defined(_UNICODE)
-std::unique_ptr<InputStream> Streams::GetFileInputStream(
-    const std::wstring& file, bool binaryMode) {
-  return std::make_unique<FileInputStream>(file, binaryMode);
-}
-
-std::unique_ptr<OutputStream> Streams::GetFileOutputStream(
-    const std::wstring& file, bool binaryMode) {
-  return std::make_unique<FileOutputStream>(file, binaryMode);
-}
-
-std::unique_ptr<Stream> Streams::GetFileStream(const std::wstring& file,
-                                               bool binaryMode) {
-  return std::make_unique<FileStream>(file, binaryMode);
-}
-#else
-
 std::unique_ptr<InputStream> Streams::GetFileInputStream(
     const std::string& file, bool binaryMode) {
   return std::make_unique<FileInputStream>(file, binaryMode);
@@ -64,7 +47,6 @@ std::unique_ptr<Stream> Streams::GetFileStream(const std::string& file,
                                                bool binaryMode) {
   return std::make_unique<FileStream>(file, binaryMode);
 }
-#endif
 
 std::unique_ptr<InputStream> Streams::GetSocketInputStream(
     boost::asio::ip::tcp::socket&& socket) {

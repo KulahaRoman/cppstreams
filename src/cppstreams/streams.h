@@ -33,21 +33,12 @@ class Streams {
   static std::unique_ptr<Stream> GetBufferedStream(
       const std::shared_ptr<Stream>& stream, uint64_t bufferSize);
 
-#if defined(UNICODE) || defined(_UNICODE)
-  static std::unique_ptr<nputStream> GetFileInputStream(
-      const std::wstring& file, bool binaryMode = false);
-  static std::unique_ptr<OutputStream> GetFileOutputStream(
-      const std::wstring& file, bool binaryMode = false);
-  static std::unique_ptr<Stream> GetFileStream(const std::wstring& file,
-                                               bool binaryMode = false);
-#else
   static std::unique_ptr<InputStream> GetFileInputStream(
       const std::string& file, bool binaryMode = false);
   static std::unique_ptr<OutputStream> GetFileOutputStream(
       const std::string& file, bool binaryMode = false);
   static std::unique_ptr<Stream> GetFileStream(const std::string& file,
                                                bool binaryMode = false);
-#endif
 
   static std::unique_ptr<InputStream> GetSocketInputStream(
       boost::asio::ip::tcp::socket&& socket);

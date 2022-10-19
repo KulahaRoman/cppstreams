@@ -4,14 +4,7 @@
 
 class FileInputStream : private AbstractFileInputStream, public InputStream {
  public:
-  FileInputStream(const
-#if defined(UNICODE) || defined(_UNICODE)
-                  std::wstring
-#else
-                  std::string
-#endif
-                      & file,
-                  bool binary);
+  FileInputStream(const std::string& file, bool binary);
 
   uint64_t Read(unsigned char* data, uint64_t size) override;
   void Read(unsigned char* data, uint64_t size,
