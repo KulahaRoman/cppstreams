@@ -84,7 +84,7 @@ set(HEADERS # Interfaces
 			src/cppstreams/encryptedstreams/abstracts/abstractencryptedstream.h
 )
 
-set(BOOST_ROOT D:/Development/CXX/Libraries/Boost)
+set(BOOST_ROOT C:/Boost)
 
 find_package(Boost REQUIRED)
 

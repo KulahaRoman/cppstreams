@@ -16,34 +16,34 @@
 
 class Streams {
  public:
-  static std::unique_ptr<InputStream> GetEncryptedInputStream(
+  static std::shared_ptr<InputStream> GetEncryptedInputStream(
       const std::shared_ptr<Encryptor>& encryptor,
       const std::shared_ptr<InputStream>& stream);
-  static std::unique_ptr<OutputStream> GetEncryptedOutputStream(
+  static std::shared_ptr<OutputStream> GetEncryptedOutputStream(
       const std::shared_ptr<Encryptor>& encryptor,
       const std::shared_ptr<OutputStream>& stream);
-  static std::unique_ptr<Stream> GetEncryptedStream(
+  static std::shared_ptr<Stream> GetEncryptedStream(
       const std::shared_ptr<Encryptor>& encryptor,
       const std::shared_ptr<Stream>& stream);
 
-  static std::unique_ptr<InputStream> GetBufferedInputStream(
+  static std::shared_ptr<InputStream> GetBufferedInputStream(
       const std::shared_ptr<InputStream>& stream, uint64_t bufferSize);
-  static std::unique_ptr<OutputStream> GetBufferedOutputStream(
+  static std::shared_ptr<OutputStream> GetBufferedOutputStream(
       const std::shared_ptr<OutputStream>& stream, uint64_t bufferSize);
-  static std::unique_ptr<Stream> GetBufferedStream(
+  static std::shared_ptr<Stream> GetBufferedStream(
       const std::shared_ptr<Stream>& stream, uint64_t bufferSize);
 
-  static std::unique_ptr<InputStream> GetFileInputStream(
+  static std::shared_ptr<InputStream> GetFileInputStream(
       const std::string& file, bool binaryMode = false);
-  static std::unique_ptr<OutputStream> GetFileOutputStream(
+  static std::shared_ptr<OutputStream> GetFileOutputStream(
       const std::string& file, bool binaryMode = false);
-  static std::unique_ptr<Stream> GetFileStream(const std::string& file,
+  static std::shared_ptr<Stream> GetFileStream(const std::string& file,
                                                bool binaryMode = false);
 
-  static std::unique_ptr<InputStream> GetSocketInputStream(
+  static std::shared_ptr<InputStream> GetSocketInputStream(
       boost::asio::ip::tcp::socket&& socket);
-  static std::unique_ptr<OutputStream> GetSocketOutputStream(
+  static std::shared_ptr<OutputStream> GetSocketOutputStream(
       boost::asio::ip::tcp::socket&& socket);
-  static std::unique_ptr<Stream> GetSocketStream(
+  static std::shared_ptr<Stream> GetSocketStream(
       boost::asio::ip::tcp::socket&& socket);
 };

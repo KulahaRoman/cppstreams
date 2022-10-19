@@ -1,64 +1,64 @@
 #include "Streams.h"
 
-std::unique_ptr<InputStream> Streams::GetEncryptedInputStream(
+std::shared_ptr<InputStream> Streams::GetEncryptedInputStream(
     const std::shared_ptr<Encryptor>& encryptor,
     const std::shared_ptr<InputStream>& stream) {
   return std::make_unique<EncryptedInputStream>(encryptor, stream);
 }
 
-std::unique_ptr<OutputStream> Streams::GetEncryptedOutputStream(
+std::shared_ptr<OutputStream> Streams::GetEncryptedOutputStream(
     const std::shared_ptr<Encryptor>& encryptor,
     const std::shared_ptr<OutputStream>& stream) {
   return std::make_unique<EncryptedOutputStream>(encryptor, stream);
 }
 
-std::unique_ptr<Stream> Streams::GetEncryptedStream(
+std::shared_ptr<Stream> Streams::GetEncryptedStream(
     const std::shared_ptr<Encryptor>& encryptor,
     const std::shared_ptr<Stream>& stream) {
   return std::make_unique<EncryptedStream>(encryptor, stream);
 }
 
-std::unique_ptr<InputStream> Streams::GetBufferedInputStream(
+std::shared_ptr<InputStream> Streams::GetBufferedInputStream(
     const std::shared_ptr<InputStream>& stream, uint64_t bufferSize) {
   return std::make_unique<BufferedInputStream>(stream, bufferSize);
 }
 
-std::unique_ptr<OutputStream> Streams::GetBufferedOutputStream(
+std::shared_ptr<OutputStream> Streams::GetBufferedOutputStream(
     const std::shared_ptr<OutputStream>& stream, uint64_t bufferSize) {
   return std::make_unique<BufferedOutputStream>(stream, bufferSize);
 }
 
-std::unique_ptr<Stream> Streams::GetBufferedStream(
+std::shared_ptr<Stream> Streams::GetBufferedStream(
     const std::shared_ptr<Stream>& stream, uint64_t bufferSize) {
   return std::make_unique<BufferedStream>(stream, bufferSize);
 }
 
-std::unique_ptr<InputStream> Streams::GetFileInputStream(
+std::shared_ptr<InputStream> Streams::GetFileInputStream(
     const std::string& file, bool binaryMode) {
   return std::make_unique<FileInputStream>(file, binaryMode);
 }
 
-std::unique_ptr<OutputStream> Streams::GetFileOutputStream(
+std::shared_ptr<OutputStream> Streams::GetFileOutputStream(
     const std::string& file, bool binaryMode) {
   return std::make_unique<FileOutputStream>(file, binaryMode);
 }
 
-std::unique_ptr<Stream> Streams::GetFileStream(const std::string& file,
+std::shared_ptr<Stream> Streams::GetFileStream(const std::string& file,
                                                bool binaryMode) {
   return std::make_unique<FileStream>(file, binaryMode);
 }
 
-std::unique_ptr<InputStream> Streams::GetSocketInputStream(
+std::shared_ptr<InputStream> Streams::GetSocketInputStream(
     boost::asio::ip::tcp::socket&& socket) {
   return std::make_unique<SocketInputStream>(std::move(socket));
 }
 
-std::unique_ptr<OutputStream> Streams::GetSocketOutputStream(
+std::shared_ptr<OutputStream> Streams::GetSocketOutputStream(
     boost::asio::ip::tcp::socket&& socket) {
   return std::make_unique<SocketOutputStream>(std::move(socket));
 }
 
-std::unique_ptr<Stream> Streams::GetSocketStream(
+std::shared_ptr<Stream> Streams::GetSocketStream(
     boost::asio::ip::tcp::socket&& socket) {
   return std::make_unique<SocketStream>(std::move(socket));
 }
