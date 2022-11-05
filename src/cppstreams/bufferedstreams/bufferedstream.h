@@ -7,7 +7,7 @@ class BufferedStream : protected AbstractBufferedInputStream,
                        protected AbstractBufferedOutputStream,
                        public Stream {
  public:
-  BufferedStream(const std::shared_ptr<Stream>& stream, uint64_t bufferSize);
+  BufferedStream(Stream& stream, uint64_t bufferSize);
 
   uint64_t Read(unsigned char* data, uint64_t size) override;
   void Read(unsigned char* data, uint64_t size,

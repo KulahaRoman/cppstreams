@@ -1,7 +1,7 @@
 #include "bufferedinputstream.h"
 
-BufferedInputStream::BufferedInputStream(
-    const std::shared_ptr<InputStream>& stream, uint64_t bufferSize)
+BufferedInputStream::BufferedInputStream(InputStream& stream,
+                                         uint64_t bufferSize)
     : AbstractBufferedInputStream(stream, bufferSize) {}
 
 uint64_t BufferedInputStream::Read(unsigned char* data, uint64_t size) {

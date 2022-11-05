@@ -11,8 +11,7 @@
 
 class AbstractBufferedOutputStream {
  protected:
-  AbstractBufferedOutputStream(const std::shared_ptr<OutputStream>& stream,
-                               uint64_t bufferSize);
+  AbstractBufferedOutputStream(OutputStream& stream, uint64_t bufferSize);
 
   uint64_t write(const unsigned char* data, uint64_t size);
   void write(const unsigned char* data, uint64_t size,
@@ -42,5 +41,5 @@ class AbstractBufferedOutputStream {
   uint64_t writeBufferPos;
 
  private:
-  std::shared_ptr<OutputStream> stream;
+  OutputStream& stream;
 };

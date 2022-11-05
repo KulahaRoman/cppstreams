@@ -1,10 +1,9 @@
 #include "encryptedstream.h"
 
-EncryptedStream::EncryptedStream(const std::shared_ptr<Encryptor>& encryptor,
-                                 const std::shared_ptr<Stream>& stream)
+EncryptedStream::EncryptedStream(Encryptor& encryptor, Stream& stream)
     : AbstractEncryptedStream(encryptor),
-      EncryptedInputStream(stream, encryptor->GetBlockSize()),
-      EncryptedOutputStream(stream, encryptor->GetBlockSize()) {}
+      EncryptedInputStream(stream, encryptor.GetBlockSize()),
+      EncryptedOutputStream(stream, encryptor.GetBlockSize()) {}
 
 uint64_t EncryptedStream::Read(unsigned char* data, uint64_t size) {
   return EncryptedInputStream::Read(data, size);

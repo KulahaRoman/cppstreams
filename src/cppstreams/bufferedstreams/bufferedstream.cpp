@@ -1,7 +1,6 @@
 #include "bufferedstream.h"
 
-BufferedStream::BufferedStream(const std::shared_ptr<Stream>& stream,
-                               uint64_t bufferSize)
+BufferedStream::BufferedStream(Stream& stream, uint64_t bufferSize)
     : AbstractBufferedInputStream(stream, bufferSize),
       AbstractBufferedOutputStream(stream, bufferSize) {}
 

@@ -5,12 +5,10 @@
 class EncryptedOutputStream : public BufferedOutputStream,
                               virtual protected AbstractEncryptedStream {
  public:
-  EncryptedOutputStream(const std::shared_ptr<Encryptor>& encryptor,
-                        const std::shared_ptr<OutputStream>& stream);
+  EncryptedOutputStream(Encryptor& encryptor, OutputStream& stream);
 
  protected:
-  EncryptedOutputStream(const std::shared_ptr<OutputStream>& stream,
-                        uint64_t bufferSize);
+  EncryptedOutputStream(OutputStream& stream, uint64_t bufferSize);
 
  private:
   void processWriteBuffer() override;

@@ -8,8 +8,7 @@ class EncryptedStream : public Stream,
                         private EncryptedInputStream,
                         private EncryptedOutputStream {
  public:
-  EncryptedStream(const std::shared_ptr<Encryptor>& encryptor,
-                  const std::shared_ptr<Stream>& stream);
+  EncryptedStream(Encryptor& encryptor, Stream& stream);
 
   uint64_t Read(unsigned char* data, uint64_t size) override;
   void Read(unsigned char* data, uint64_t size,
