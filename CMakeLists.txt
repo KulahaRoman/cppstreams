@@ -5,8 +5,7 @@ project(cppstreams)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES 
-			# FileStreams
+set(SOURCES # FileStreams
 			src/cppstreams/filestreams/filestream.cpp
 			src/cppstreams/filestreams/fileinputstream.cpp
 			src/cppstreams/filestreams/fileoutputstream.cpp
