@@ -5,7 +5,8 @@
 class BufferedOutputStream : protected AbstractBufferedOutputStream,
                              public OutputStream {
  public:
-  BufferedOutputStream(OutputStream& stream, uint64_t bufferSize);
+  BufferedOutputStream(const std::shared_ptr<OutputStream>& stream,
+                       uint64_t bufferSize);
 
   uint64_t Write(const unsigned char* data, uint64_t size) override;
   void Write(const unsigned char* data, uint64_t size,

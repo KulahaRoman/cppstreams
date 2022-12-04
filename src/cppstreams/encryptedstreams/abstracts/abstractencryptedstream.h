@@ -6,10 +6,10 @@
 class AbstractEncryptedStream {
  protected:
   AbstractEncryptedStream();
-  AbstractEncryptedStream(Encryptor& encryptor);
+  AbstractEncryptedStream(const std::shared_ptr<Encryptor>& encryptor);
 
-  Encryptor& GetEncryptor() const;
+  std::shared_ptr<Encryptor> GetEncryptor() const;
 
  protected:
-  Encryptor* encryptor;
+  std::shared_ptr<Encryptor> encryptor;
 };

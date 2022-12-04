@@ -5,10 +5,12 @@
 class EncryptedInputStream : public BufferedInputStream,
                              virtual protected AbstractEncryptedStream {
  public:
-  EncryptedInputStream(Encryptor& encryptor, InputStream& stream);
+  EncryptedInputStream(const std::shared_ptr<Encryptor>& encryptor,
+                       const std::shared_ptr<InputStream>& stream);
 
  protected:
-  EncryptedInputStream(InputStream& stream, uint64_t bufferSize);
+  EncryptedInputStream(const std::shared_ptr<InputStream>& stream,
+                       uint64_t bufferSize);
 
  private:
   void processReadBuffer() override;

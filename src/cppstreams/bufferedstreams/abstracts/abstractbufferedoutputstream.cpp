@@ -1,7 +1,7 @@
 #include "abstractbufferedoutputstream.h"
 
-AbstractBufferedOutputStream::AbstractBufferedOutputStream(OutputStream& stream,
-                                                           uint64_t bufferSize)
+AbstractBufferedOutputStream::AbstractBufferedOutputStream(
+    const std::shared_ptr<OutputStream>& stream, uint64_t bufferSize)
     : stream(stream), writeBuffer(static_cast<size_t>(bufferSize)) {
   resetWriteBuffer();
 }
@@ -15,7 +15,7 @@ uint64_t AbstractBufferedOutputStream::write(const unsigned char* data,
 
     if (writeBufferPos == writeBuffer.size()) {
       processWriteBuffer();
-      stream.Write(writeBuffer.data(), writeBuffer.size());
+      stream->Write(writeBuffer.data(), writeBuffer.size());
       resetWriteBuffer();
     }
   }
@@ -35,7 +35,7 @@ uint64_t AbstractBufferedOutputStream::flush() {
 
   if (writeBufferPos) {
     processWriteBuffer();
-    flushedBytes = stream.Write(writeBuffer.data(), writeBuffer.size());
+    flushedBytes = stream->Write(writeBuffer.data(), writeBuffer.size());
     resetWriteBuffer();
     return writeBuffer.size();
   }
@@ -48,7 +48,7 @@ void AbstractBufferedOutputStream::flush(
     const std::function<void(const Exception&)>& onFailure) {
   if (writeBufferPos) {
     processWriteBuffer();
-    stream.Write(
+    stream->Write(
         writeBuffer.data(), writeBuffer.size(),
         [this, onSuccess](auto bytesWritten) {
           resetWriteBuffer();
@@ -82,7 +82,7 @@ void AbstractBufferedOutputStream::write(
     if (writeBufferPos == writeBuffer.size()) {
       processWriteBuffer();
 
-      stream.Write(
+      stream->Write(
           writeBuffer.data(), writeBuffer.size(),
           [this, data, size, writtenDataSize, onSuccess, onFailure](auto) {
             resetWriteBuffer();

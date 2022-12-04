@@ -1,8 +1,11 @@
 #include "abstractencryptedstream.h"
 
-AbstractEncryptedStream::AbstractEncryptedStream() : encryptor(nullptr) {}
+AbstractEncryptedStream::AbstractEncryptedStream() {}
 
-AbstractEncryptedStream::AbstractEncryptedStream(Encryptor& encryptor)
-    : encryptor(&encryptor) {}
+AbstractEncryptedStream::AbstractEncryptedStream(
+    const std::shared_ptr<Encryptor>& encryptor)
+    : encryptor(encryptor) {}
 
-Encryptor& AbstractEncryptedStream::GetEncryptor() const { return *encryptor; }
+std::shared_ptr<Encryptor> AbstractEncryptedStream::GetEncryptor() const {
+  return encryptor;
+}

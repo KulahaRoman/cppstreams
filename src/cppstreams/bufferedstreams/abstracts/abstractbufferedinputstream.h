@@ -11,7 +11,8 @@
 
 class AbstractBufferedInputStream {
  protected:
-  AbstractBufferedInputStream(InputStream& stream, uint64_t bufferSize);
+  AbstractBufferedInputStream(const std::shared_ptr<InputStream>& stream,
+                              uint64_t bufferSize);
 
  protected:
   uint64_t read(unsigned char* data, uint64_t size);
@@ -44,5 +45,5 @@ class AbstractBufferedInputStream {
   bool readBufferCached;
 
  private:
-  InputStream& stream;
+  std::shared_ptr<InputStream> stream;
 };

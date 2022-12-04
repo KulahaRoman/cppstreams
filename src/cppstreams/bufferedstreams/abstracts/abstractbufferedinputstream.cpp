@@ -1,7 +1,7 @@
 #include "abstractbufferedinputstream.h"
 
-AbstractBufferedInputStream::AbstractBufferedInputStream(InputStream& stream,
-                                                         uint64_t bufferSize)
+AbstractBufferedInputStream::AbstractBufferedInputStream(
+    const std::shared_ptr<InputStream>& stream, uint64_t bufferSize)
     : stream(stream), readBuffer(static_cast<size_t>(bufferSize)) {
   resetReadBuffer();
 }
@@ -11,7 +11,7 @@ uint64_t AbstractBufferedInputStream::read(unsigned char* data, uint64_t size) {
 
   while (readDataSize < size) {
     if (!readBufferCached) {
-      stream.Read(readBuffer.data(), readBuffer.size());
+      stream->Read(readBuffer.data(), readBuffer.size());
       processReadBuffer();
       readBufferCached = true;
     }
@@ -54,13 +54,13 @@ uint64_t AbstractBufferedInputStream::skip(uint64_t size) {
     auto nBuffers = nBytesToRead / bufferSize + 1ull;
     auto nBytesToSkip = nBuffers * bufferSize;
 
-    if (nBytesToSkip + bufferSize > stream.Available()) {
+    if (nBytesToSkip + bufferSize > stream->Available()) {
       throw RuntimeException(
           "Failed to skip bytes (insufficient bytes available).");
     }
 
-    stream.Skip(nBytesToSkip);
-    stream.Read(readBuffer.data(), bufferSize);
+    stream->Skip(nBytesToSkip);
+    stream->Read(readBuffer.data(), bufferSize);
 
     processReadBuffer();
 
@@ -96,7 +96,7 @@ void AbstractBufferedInputStream::skip(
     auto nBuffers = nBytesToRead / bufferSize + 1ull;
     auto nBytesToSkip = nBuffers * bufferSize;
 
-    if (nBytesToSkip + bufferSize > stream.Available()) {
+    if (nBytesToSkip + bufferSize > stream->Available()) {
       ThreadPool::AcceptTask([onFailure] {
         if (onFailure) {
           onFailure(RuntimeException(
@@ -108,10 +108,10 @@ void AbstractBufferedInputStream::skip(
 
     auto newReadBufferPos = nBytesToRead % bufferSize;
 
-    stream.Skip(
+    stream->Skip(
         nBytesToSkip,
         [this, size, newReadBufferPos, onSuccess, onFailure](auto) {
-          stream.Read(
+          stream->Read(
               readBuffer.data(), readBuffer.size(),
               [this, size, newReadBufferPos, onSuccess](auto) {
                 processReadBuffer();
@@ -144,7 +144,9 @@ void AbstractBufferedInputStream::skip(
   }
 }
 
-uint64_t AbstractBufferedInputStream::available() { return stream.Available(); }
+uint64_t AbstractBufferedInputStream::available() {
+  return stream->Available();
+}
 
 void AbstractBufferedInputStream::read(
     unsigned char* data, uint64_t size, uint64_t readDataSize,
@@ -152,7 +154,7 @@ void AbstractBufferedInputStream::read(
     const std::function<void(const Exception&)>& onFailure) {
   while (readDataSize < size) {
     if (!readBufferCached) {
-      stream.Read(
+      stream->Read(
           readBuffer.data(), readBuffer.size(),
           [this, data, size, readDataSize, onSuccess, onFailure](auto) {
             processReadBuffer();
