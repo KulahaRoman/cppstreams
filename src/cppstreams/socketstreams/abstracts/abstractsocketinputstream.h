@@ -1,8 +1,8 @@
 #pragma once
-#include <cpputils/exceptions/exceptions.h>
 #include <cpputils/threadpool/threadpool.h>
 
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 #include "abstractsocketstream.h"

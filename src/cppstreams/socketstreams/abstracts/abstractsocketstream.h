@@ -1,6 +1,4 @@
 #pragma once
-#include <cpputils/exceptions/exceptions.h>
-
 #include <boost/asio.hpp>
 
 class AbstractSocketStream {

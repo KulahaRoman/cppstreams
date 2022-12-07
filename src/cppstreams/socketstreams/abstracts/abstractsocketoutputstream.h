@@ -1,9 +1,9 @@
 #pragma once
-#include <cpputils/exceptions/exceptions.h>
 #include <cpputils/threadpool/threadpool.h>
 
-#include "abstractsocketstream.h"
+#include <stdexcept>
 
+#include "abstractsocketstream.h"
 
 class AbstractSocketOutputStream : virtual protected AbstractSocketStream {
  protected:

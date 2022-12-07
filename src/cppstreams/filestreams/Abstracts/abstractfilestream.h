@@ -1,8 +1,7 @@
 #pragma once
-#include <cpputils/exceptions/exceptions.h>
-
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 
 class AbstractFileStream {
  protected:

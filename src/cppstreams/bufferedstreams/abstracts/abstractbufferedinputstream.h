@@ -1,9 +1,9 @@
 #pragma once
-#include <cpputils/exceptions/exceptions.h>
 #include <cpputils/threadpool/threadpool.h>
 
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 

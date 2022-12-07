@@ -11,7 +11,7 @@ uint64_t AbstractSocketOutputStream::write(const unsigned char* data,
     bytesWritten = boost::asio::write(
         socket, boost::asio::const_buffer(data, static_cast<size_t>(size)));
   } catch (...) {
-    throw RuntimeException("Failed to write bytes (IO error).");
+    throw std::runtime_error("Failed to write bytes (IO error).");
   }
   return bytesWritten;
 }
@@ -36,7 +36,8 @@ void AbstractSocketOutputStream::write(
         if (error) {
           ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
-              onFailure(RuntimeException("Failed to write bytes (IO error)."));
+              onFailure(
+                  std::runtime_error("Failed to write bytes (IO error)."));
             }
           });
           return;
@@ -51,7 +52,7 @@ void AbstractSocketOutputStream::write(
 }
 
 uint64_t AbstractSocketOutputStream::flush() {
-  throw RuntimeException(
+  throw std::runtime_error(
       "Unsupported stream method (Flush() for non-bufered stream).");
   return 0ull;
 }
@@ -61,7 +62,7 @@ void AbstractSocketOutputStream::flush(
     const std::function<void(const Exception&)>& onFailure) {
   ThreadPool::AcceptTask([onFailure] {
     if (onFailure) {
-      onFailure(RuntimeException(
+      onFailure(std::runtime_error(
           "Unsupported stream method (Flush() for non-bufered stream)."));
     }
   });

@@ -7,7 +7,7 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
 
   uint64_t bytesAvailable = available();
   if (bytesAvailable < size) {
-    throw RuntimeException(
+    throw std::runtime_error(
         "Failed to read bytes (insufficient bytes available).");
   }
 
@@ -20,7 +20,7 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
     bytesRead = boost::asio::read(
         socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()));
   } catch (...) {
-    throw RuntimeException("Failed to read bytes (IO error).");
+    throw std::runtime_error("Failed to read bytes (IO error).");
   }
 
   std::copy(tempBuffer->data(), tempBuffer->data() + tempBuffer->size(), data);
@@ -45,7 +45,7 @@ void AbstractSocketInputStream::read(
   if (bytesAvailable < size) {
     ThreadPool::AcceptTask([onFailure] {
       if (onFailure) {
-        onFailure(RuntimeException(
+        onFailure(std::runtime_error(
             "Failed to read bytes (insufficient bytes available)."));
       }
     });
@@ -62,7 +62,7 @@ void AbstractSocketInputStream::read(
         if (error) {
           ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
-              onFailure(RuntimeException("Failed to read bytes (IO error)."));
+              onFailure(std::runtime_error("Failed to read bytes (IO error)."));
             }
           });
           return;
@@ -86,7 +86,7 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
 
   uint64_t bytesAvailable = available();
   if (bytesAvailable < nBytes) {
-    throw RuntimeException(
+    throw std::runtime_error(
         "Failed to skip bytes (insufficient bytes available).");
   }
 
@@ -98,7 +98,7 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
     bytesSkipped = boost::asio::read(
         socket, boost::asio::buffer(tempBuffer.data(), tempBuffer.size()));
   } catch (...) {
-    throw RuntimeException("Failed to skip bytes (IO error).");
+    throw std::runtime_error("Failed to skip bytes (IO error).");
   }
 
   return bytesSkipped;
@@ -120,7 +120,7 @@ void AbstractSocketInputStream::skip(
   if (bytesAvailable < size) {
     ThreadPool::AcceptTask([onFailure] {
       if (onFailure) {
-        onFailure(RuntimeException(
+        onFailure(std::runtime_error(
             "Failed to skip bytes (insufficient bytes available)."));
       }
     });
@@ -136,7 +136,7 @@ void AbstractSocketInputStream::skip(
         if (error) {
           ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
-              onFailure(RuntimeException("Failed to skip bytes (IO error)."));
+              onFailure(std::runtime_error("Failed to skip bytes (IO error)."));
             }
           });
           return;

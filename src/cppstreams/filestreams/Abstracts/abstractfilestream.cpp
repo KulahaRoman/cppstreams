@@ -9,7 +9,7 @@ AbstractFileStream::AbstractFileStream(const std::string& file,
   try {
     this->file.open(file, openMode);
   } catch (...) {
-    throw RuntimeException("Failed to open file stream: cannot open file.");
+    throw std::runtime_error("Failed to open file stream: cannot open file.");
   }
 }
 

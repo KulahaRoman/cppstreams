@@ -1,5 +1,4 @@
 #pragma once
-#include <cpputils/exceptions/exceptions.h>
 #include <cpputils/threadpool/threadpool.h>
 
 #include <cstdint>

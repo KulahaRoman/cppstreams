@@ -9,7 +9,7 @@ uint64_t AbstractFileInputStream::read(unsigned char* data, uint64_t size) {
 
   auto bytesAvailable = available();
   if (bytesAvailable < size) {
-    throw RuntimeException(
+    throw std::runtime_error(
         "Failed to read bytes (insufficient bytes available).");
   }
 
@@ -19,7 +19,7 @@ uint64_t AbstractFileInputStream::read(unsigned char* data, uint64_t size) {
   try {
     file.read(reinterpret_cast<char*>(tempBuffer.data()), tempBuffer.size());
   } catch (...) {
-    throw RuntimeException("Failed to read bytes (IO error).");
+    throw std::runtime_error("Failed to read bytes (IO error).");
   }
 
   std::copy(tempBuffer.data(), tempBuffer.data() + tempBuffer.size(), data);
@@ -54,7 +54,7 @@ uint64_t AbstractFileInputStream::skip(uint64_t size) {
 
   auto bytesAvailable = available();
   if (bytesAvailable < size) {
-    throw RuntimeException(
+    throw std::runtime_error(
         "Failed to skip bytes (insufficient bytes available).");
   }
 
@@ -63,7 +63,7 @@ uint64_t AbstractFileInputStream::skip(uint64_t size) {
     file.seekg(newGPos, std::ios::beg);
     gpos = newGPos;
   } catch (...) {
-    throw RuntimeException("Failed to skip bytes (IO error).");
+    throw std::runtime_error("Failed to skip bytes (IO error).");
   }
 
   return size;
