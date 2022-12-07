@@ -11,7 +11,7 @@ uint64_t FileOutputStream::Write(const unsigned char* data, uint64_t size) {
 void FileOutputStream::Write(
     const unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   write(data, size, onSuccess, onFailure);
 }
 
@@ -19,6 +19,6 @@ uint64_t FileOutputStream::Flush() { return flush(); }
 
 void FileOutputStream::Flush(
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   flush(onSuccess, onFailure);
 }

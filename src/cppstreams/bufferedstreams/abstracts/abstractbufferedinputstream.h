@@ -18,18 +18,18 @@ class AbstractBufferedInputStream {
   uint64_t read(unsigned char* data, uint64_t size);
   void read(unsigned char* data, uint64_t size,
             const std::function<void(uint64_t)>& onSuccess,
-            const std::function<void(const Exception&)>& onFailure);
+            const std::function<void(const std::exception&)>& onFailure);
 
   uint64_t skip(uint64_t size);
   void skip(uint64_t size, const std::function<void(uint64_t)>& onSuccess,
-            const std::function<void(const Exception&)>& onFailure);
+            const std::function<void(const std::exception&)>& onFailure);
 
   uint64_t available();
 
  private:
   void read(unsigned char* data, uint64_t size, uint64_t readDataSize,
             const std::function<void(uint64_t)>& onSuccess,
-            const std::function<void(const Exception&)>& onFailure);
+            const std::function<void(const std::exception&)>& onFailure);
 
   virtual void processReadBuffer();
   void readPortion(unsigned char* data, uint64_t size, uint64_t& readDataSize);

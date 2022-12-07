@@ -29,7 +29,7 @@ uint64_t AbstractBufferedInputStream::read(unsigned char* data, uint64_t size) {
 void AbstractBufferedInputStream::read(
     unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   read(data, size, 0ull, onSuccess, onFailure);
 }
 
@@ -75,7 +75,7 @@ uint64_t AbstractBufferedInputStream::skip(uint64_t size) {
 
 void AbstractBufferedInputStream::skip(
     uint64_t size, const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   auto bufferSize = static_cast<uint64_t>(readBuffer.size());
 
   //            buffer
@@ -151,7 +151,7 @@ uint64_t AbstractBufferedInputStream::available() {
 void AbstractBufferedInputStream::read(
     unsigned char* data, uint64_t size, uint64_t readDataSize,
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   while (readDataSize < size) {
     if (!readBufferCached) {
       stream->Read(

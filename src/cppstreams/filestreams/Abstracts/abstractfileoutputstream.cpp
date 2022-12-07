@@ -24,14 +24,14 @@ uint64_t AbstractFileOutputStream::write(const unsigned char* data,
 void AbstractFileOutputStream::write(
     const unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   ThreadPool::AcceptTask([this, data, size, onSuccess, onFailure] {
     try {
       auto result = AbstractFileOutputStream::write(data, size);
       if (onSuccess) {
         onSuccess(result);
       }
-    } catch (const Exception& ex) {
+    } catch (const std::exception& ex) {
       if (onFailure) {
         onFailure(ex);
       }
@@ -47,14 +47,14 @@ uint64_t AbstractFileOutputStream::flush() {
 
 void AbstractFileOutputStream::flush(
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   ThreadPool::AcceptTask([this, onSuccess, onFailure] {
     try {
       auto result = AbstractFileOutputStream::flush();
       if (onSuccess) {
         onSuccess(result);
       }
-    } catch (const Exception& ex) {
+    } catch (const std::exception& ex) {
       if (onFailure) {
         onFailure(ex);
       }

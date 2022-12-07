@@ -26,7 +26,7 @@ uint64_t AbstractBufferedOutputStream::write(const unsigned char* data,
 void AbstractBufferedOutputStream::write(
     const unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   write(data, size, 0ull, onSuccess, onFailure);
 }
 
@@ -45,7 +45,7 @@ uint64_t AbstractBufferedOutputStream::flush() {
 
 void AbstractBufferedOutputStream::flush(
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   if (writeBufferPos) {
     processWriteBuffer();
     stream->Write(
@@ -75,7 +75,7 @@ void AbstractBufferedOutputStream::flush(
 void AbstractBufferedOutputStream::write(
     const unsigned char* data, uint64_t size, uint64_t writtenDataSize,
     const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const Exception&)>& onFailure) {
+    const std::function<void(const std::exception&)>& onFailure) {
   while (writtenDataSize < size) {
     writePortion(data, size, writtenDataSize);
 
