@@ -1,5 +1,4 @@
 #pragma once
-#include <cpputils/logger/logger.h>
 #include <cpputils/threadpool/threadpool.h>
 
 #include <functional>
