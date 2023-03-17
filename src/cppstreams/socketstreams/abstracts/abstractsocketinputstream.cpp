@@ -5,11 +5,11 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
     return size;
   }
 
-  uint64_t bytesAvailable = available();
+  /*uint64_t bytesAvailable = available();
   if (bytesAvailable < size) {
     throw std::runtime_error(
         "Failed to read bytes (insufficient bytes available).");
-  }
+  }*/
 
   uint64_t bytesRead = 0ull;
 
@@ -41,7 +41,7 @@ void AbstractSocketInputStream::read(
     return;
   }
 
-  auto bytesAvailable = available();
+  /*auto bytesAvailable = available();
   if (bytesAvailable < size) {
     ThreadPool::AcceptTask([onFailure] {
       if (onFailure) {
@@ -50,7 +50,7 @@ void AbstractSocketInputStream::read(
       }
     });
     return;
-  }
+  }*/
 
   auto tempBuffer =
       std::make_shared<std::vector<unsigned char>>(static_cast<size_t>(size));
