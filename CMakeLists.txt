@@ -49,6 +49,8 @@ set(Boost_USE_STATIC_RUNTIME ON)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE -D_WIN32_WINNT=0x0601)
+
 add_subdirectory(libs/cpputils)
 target_link_libraries(${PROJECT_NAME} PUBLIC cpputils)
 
