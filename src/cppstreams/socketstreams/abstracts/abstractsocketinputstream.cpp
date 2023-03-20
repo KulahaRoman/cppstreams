@@ -5,12 +5,6 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
     return size;
   }
 
-  /*uint64_t bytesAvailable = available();
-  if (bytesAvailable < size) {
-    throw std::runtime_error(
-        "Failed to read bytes (insufficient bytes available).");
-  }*/
-
   uint64_t bytesRead = 0ull;
 
   auto tempBuffer =
@@ -40,17 +34,6 @@ void AbstractSocketInputStream::read(
     });
     return;
   }
-
-  /*auto bytesAvailable = available();
-  if (bytesAvailable < size) {
-    ThreadPool::AcceptTask([onFailure] {
-      if (onFailure) {
-        onFailure(std::runtime_error(
-            "Failed to read bytes (insufficient bytes available)."));
-      }
-    });
-    return;
-  }*/
 
   auto tempBuffer =
       std::make_shared<std::vector<unsigned char>>(static_cast<size_t>(size));
@@ -84,12 +67,6 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
     return nBytes;
   }
 
-  uint64_t bytesAvailable = available();
-  if (bytesAvailable < nBytes) {
-    throw std::runtime_error(
-        "Failed to skip bytes (insufficient bytes available).");
-  }
-
   uint64_t bytesSkipped = 0ull;
 
   std::vector<unsigned char> tempBuffer(static_cast<size_t>(nBytes));
@@ -111,17 +88,6 @@ void AbstractSocketInputStream::skip(
     ThreadPool::AcceptTask([onSuccess, size] {
       if (onSuccess) {
         onSuccess(size);
-      }
-    });
-    return;
-  }
-
-  auto bytesAvailable = available();
-  if (bytesAvailable < size) {
-    ThreadPool::AcceptTask([onFailure] {
-      if (onFailure) {
-        onFailure(std::runtime_error(
-            "Failed to skip bytes (insufficient bytes available)."));
       }
     });
     return;
