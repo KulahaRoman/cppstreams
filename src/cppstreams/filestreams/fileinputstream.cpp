@@ -1,7 +1,7 @@
 #include "fileinputstream.h"
 
 FileInputStream::FileInputStream(const std::string& file, bool binary)
-    : AbstractFileStream(file, std::ios::in | (binary ? std::ios::binary : 0)) {
+    : AbstractFileStream(file, std::ios::in | (binary ? std::ios::binary : std::ios::openmode(0))) {
 }
 
 uint64_t FileInputStream::Read(unsigned char* data, uint64_t size) {

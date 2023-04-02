@@ -8,7 +8,7 @@ AbstractBufferedOutputStream::AbstractBufferedOutputStream(
 
 uint64_t AbstractBufferedOutputStream::write(const unsigned char* data,
                                              uint64_t size) {
-  auto writtenDataSize = 0ull;
+  uint64_t writtenDataSize = 0ull;
 
   while (writtenDataSize < size) {
     writePortion(data, size, writtenDataSize);
