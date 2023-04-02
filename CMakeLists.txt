@@ -39,18 +39,20 @@ set(CPPSTREAMS_SRC # FileStreams
 			src/${PROJECT_NAME}/encryptedstreams/abstracts/abstractencryptedstream.cpp
 )
 
-add_library(${PROJECT_NAME} STATIC ${CPPSTREAMS_SRC})
+if(NOT TARGET ${PROJECT_NAME})
+  add_library(${PROJECT_NAME} STATIC ${CPPSTREAMS_SRC})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE -D_WIN32_WINNT=0x0601)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -D_WIN32_WINNT=0x0601)
 
-set(Boost_USE_STATIC_LIBS ON) 
-set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME ON)
+  set(Boost_USE_STATIC_LIBS ON) 
+  set(Boost_USE_MULTITHREADED ON)  
+  set(Boost_USE_STATIC_RUNTIME ON)
 
-find_package(Boost REQUIRED)
-target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
+  find_package(Boost REQUIRED)
+  target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
 
-add_subdirectory(libs/cpputils)
-target_link_libraries(${PROJECT_NAME} PUBLIC cpputils)
+  add_subdirectory(libs/cpputils)
+  target_link_libraries(${PROJECT_NAME} PUBLIC cpputils)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+  target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+endif()
