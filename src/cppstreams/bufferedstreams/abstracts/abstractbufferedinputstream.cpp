@@ -7,7 +7,7 @@ AbstractBufferedInputStream::AbstractBufferedInputStream(
 }
 
 uint64_t AbstractBufferedInputStream::read(unsigned char* data, uint64_t size) {
-  auto readDataSize = 0ull;
+  uint64_t readDataSize = 0ull;
 
   while (readDataSize < size) {
     if (!readBufferCached) {

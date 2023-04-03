@@ -5,56 +5,54 @@ project(cppstreams)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES # FileStreams
-			src/cppstreams/filestreams/filestream.cpp
-			src/cppstreams/filestreams/fileinputstream.cpp
-			src/cppstreams/filestreams/fileoutputstream.cpp
+set(CPPSTREAMS_SRC # FileStreams
+			src/${PROJECT_NAME}/filestreams/filestream.cpp
+			src/${PROJECT_NAME}/filestreams/fileinputstream.cpp
+			src/${PROJECT_NAME}/filestreams/fileoutputstream.cpp
 					 	 
-			src/cppstreams/filestreams/abstracts/abstractfilestream.cpp
-			src/cppstreams/filestreams/abstracts/abstractfileinputstream.cpp
-			src/cppstreams/filestreams/abstracts/abstractfileoutputstream.cpp
+			src/${PROJECT_NAME}/filestreams/abstracts/abstractfilestream.cpp
+			src/${PROJECT_NAME}/filestreams/abstracts/abstractfileinputstream.cpp
+			src/${PROJECT_NAME}/filestreams/abstracts/abstractfileoutputstream.cpp
 			 
 			# SocketStreams
-			src/cppstreams/socketstreams/socketstream.cpp
-			src/cppstreams/socketstreams/socketinputstream.cpp
-			src/cppstreams/socketstreams/socketoutputstream.cpp
+			src/${PROJECT_NAME}/socketstreams/socketstream.cpp
+			src/${PROJECT_NAME}/socketstreams/socketinputstream.cpp
+			src/${PROJECT_NAME}/socketstreams/socketoutputstream.cpp
 			
-			src/cppstreams/socketstreams/abstracts/abstractsocketstream.cpp
-			src/cppstreams/socketstreams/abstracts/abstractsocketinputstream.cpp
-			src/cppstreams/socketstreams/abstracts/abstractsocketoutputstream.cpp
+			src/${PROJECT_NAME}/socketstreams/abstracts/abstractsocketstream.cpp
+			src/${PROJECT_NAME}/socketstreams/abstracts/abstractsocketinputstream.cpp
+			src/${PROJECT_NAME}/socketstreams/abstracts/abstractsocketoutputstream.cpp
 			 
 			# BufferedStreams
-			src/cppstreams/bufferedstreams/bufferedstream.cpp
-			src/cppstreams/bufferedstreams/bufferedinputstream.cpp
-			src/cppstreams/bufferedstreams/bufferedoutputstream.cpp
+			src/${PROJECT_NAME}/bufferedstreams/bufferedstream.cpp
+			src/${PROJECT_NAME}/bufferedstreams/bufferedinputstream.cpp
+			src/${PROJECT_NAME}/bufferedstreams/bufferedoutputstream.cpp
 			
-			src/cppstreams/bufferedstreams/abstracts/abstractbufferedinputstream.cpp
-			src/cppstreams/bufferedstreams/abstracts/abstractbufferedoutputstream.cpp
+			src/${PROJECT_NAME}/bufferedstreams/abstracts/abstractbufferedinputstream.cpp
+			src/${PROJECT_NAME}/bufferedstreams/abstracts/abstractbufferedoutputstream.cpp
 			 
 			# EncryptedStreams
-			src/cppstreams/encryptedstreams/encryptedstream.cpp
-			src/cppstreams/encryptedstreams/encryptedinputstream.cpp
-			src/cppstreams/encryptedstreams/encryptedoutputstream.cpp
+			src/${PROJECT_NAME}/encryptedstreams/encryptedstream.cpp
+			src/${PROJECT_NAME}/encryptedstreams/encryptedinputstream.cpp
+			src/${PROJECT_NAME}/encryptedstreams/encryptedoutputstream.cpp
 			
-			src/cppstreams/encryptedstreams/abstracts/abstractencryptedstream.cpp
+			src/${PROJECT_NAME}/encryptedstreams/abstracts/abstractencryptedstream.cpp
 )
 
-set(BOOST_ROOT C:/Boost)
-
-find_package(Boost REQUIRED)
-
-set(Boost_USE_STATIC_LIBS ON) 
-set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME ON)
-
 if(NOT TARGET ${PROJECT_NAME})
-  add_library(${PROJECT_NAME} STATIC ${SOURCES})
+  add_library(${PROJECT_NAME} STATIC ${CPPSTREAMS_SRC})
 
   target_compile_definitions(${PROJECT_NAME} PRIVATE -D_WIN32_WINNT=0x0601 -DBOOST_ALL_NO_LIB)
+
+  set(Boost_USE_STATIC_LIBS ON) 
+  set(Boost_USE_MULTITHREADED ON)  
+  set(Boost_USE_STATIC_RUNTIME ON)
+
+  find_package(Boost REQUIRED)
+  target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
 
   add_subdirectory(libs/cpputils)
   target_link_libraries(${PROJECT_NAME} PUBLIC cpputils)
 
-  target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
   target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 endif()
