@@ -50,7 +50,7 @@ set(Boost_USE_STATIC_RUNTIME ON)
 if(NOT TARGET ${PROJECT_NAME})
   add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -D_WIN32_WINNT=0x0601)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -D_WIN32_WINNT=0x0601 -DBOOST_ALL_NO_LIB)
 
   add_subdirectory(libs/cpputils)
   target_link_libraries(${PROJECT_NAME} PUBLIC cpputils)
