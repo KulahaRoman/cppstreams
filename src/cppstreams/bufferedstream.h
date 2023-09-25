@@ -1,7 +1,7 @@
 #pragma once
-#include "../stream.h"
-#include "abstracts/abstractbufferedinputstream.h"
-#include "abstracts/abstractbufferedoutputstream.h"
+#include "abstractbufferedinputstream.h"
+#include "abstractbufferedoutputstream.h"
+#include "stream.h"
 
 namespace CppStreams {
 class BufferedStream : protected AbstractBufferedInputStream,

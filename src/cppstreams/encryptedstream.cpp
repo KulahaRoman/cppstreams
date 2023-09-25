@@ -1,8 +1,9 @@
 #include "encryptedstream.h"
 
 namespace CppStreams {
-EncryptedStream::EncryptedStream(const std::shared_ptr<Encryptor>& encryptor,
-                                 const std::shared_ptr<Stream>& stream)
+EncryptedStream::EncryptedStream(
+    const std::shared_ptr<CppUtils::Encryption::Encryptor>& encryptor,
+    const std::shared_ptr<Stream>& stream)
     : AbstractEncryptedStream(encryptor),
       EncryptedInputStream(stream, encryptor->GetBlockSize()),
       EncryptedOutputStream(stream, encryptor->GetBlockSize()) {}

@@ -1,5 +1,5 @@
 #pragma once
-#include <cpputils/threadpool/threadpool.h>
+#include <cpputils/threadpool.h>
 
 #include <cstdint>
 #include <memory>
@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "../../inputstream.h"
+#include "inputstream.h"
 
 namespace CppStreams {
 class AbstractBufferedInputStream {

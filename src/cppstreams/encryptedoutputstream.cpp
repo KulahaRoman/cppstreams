@@ -6,7 +6,7 @@ EncryptedOutputStream::EncryptedOutputStream(
     : BufferedOutputStream(stream, bufferSize) {}
 
 EncryptedOutputStream::EncryptedOutputStream(
-    const std::shared_ptr<Encryptor>& encryptor,
+    const std::shared_ptr<CppUtils::Encryption::Encryptor>& encryptor,
     const std::shared_ptr<OutputStream>& stream)
     : BufferedOutputStream(stream, encryptor->GetBlockSize()),
       AbstractEncryptedStream(encryptor) {}

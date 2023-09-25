@@ -66,7 +66,7 @@ void AbstractBufferedOutputStream::flush(
     return;
   }
 
-  ThreadPool::AcceptTask([onSuccess] {
+  CppUtils::ThreadPool::AcceptTask([onSuccess] {
     if (onSuccess) {
       onSuccess(0ull);
     }

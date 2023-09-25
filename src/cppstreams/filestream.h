@@ -1,7 +1,7 @@
 #pragma once
-#include "../stream.h"
-#include "abstracts/abstractfileinputstream.h"
-#include "abstracts/abstractfileoutputstream.h"
+#include "abstractfileinputstream.h"
+#include "abstractfileoutputstream.h"
+#include "stream.h"
 
 namespace CppStreams {
 class FileStream : private AbstractFileInputStream,

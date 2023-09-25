@@ -28,7 +28,7 @@ void AbstractSocketInputStream::read(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   if (!size) {
-    ThreadPool::AcceptTask([onSuccess, size] {
+    CppUtils::ThreadPool::AcceptTask([onSuccess, size] {
       if (onSuccess) {
         onSuccess(size);
       }
@@ -44,7 +44,7 @@ void AbstractSocketInputStream::read(
       [this, tempBuffer, data, onSuccess, onFailure](const auto& error,
                                                      const auto& bytesRead) {
         if (error) {
-          ThreadPool::AcceptTask([onFailure] {
+          CppUtils::ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
               onFailure(std::runtime_error("Failed to read bytes (IO error)."));
             }
@@ -55,7 +55,7 @@ void AbstractSocketInputStream::read(
         std::copy(tempBuffer->data(), tempBuffer->data() + tempBuffer->size(),
                   data);
 
-        ThreadPool::AcceptTask([onSuccess, bytesRead] {
+        CppUtils::ThreadPool::AcceptTask([onSuccess, bytesRead] {
           if (onSuccess) {
             onSuccess(bytesRead);
           }
@@ -86,7 +86,7 @@ void AbstractSocketInputStream::skip(
     uint64_t size, const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   if (!size) {
-    ThreadPool::AcceptTask([onSuccess, size] {
+    CppUtils::ThreadPool::AcceptTask([onSuccess, size] {
       if (onSuccess) {
         onSuccess(size);
       }
@@ -101,7 +101,7 @@ void AbstractSocketInputStream::skip(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
       [this, onSuccess, onFailure](const auto& error, const auto& bytesRead) {
         if (error) {
-          ThreadPool::AcceptTask([onFailure] {
+          CppUtils::ThreadPool::AcceptTask([onFailure] {
             if (onFailure) {
               onFailure(std::runtime_error("Failed to skip bytes (IO error)."));
             }
@@ -109,7 +109,7 @@ void AbstractSocketInputStream::skip(
           return;
         }
 
-        ThreadPool::AcceptTask([onSuccess, bytesRead] {
+        CppUtils::ThreadPool::AcceptTask([onSuccess, bytesRead] {
           if (onSuccess) {
             onSuccess(bytesRead);
           }

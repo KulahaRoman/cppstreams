@@ -34,7 +34,7 @@ void AbstractFileInputStream::read(
     unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  ThreadPool::AcceptTask([this, data, size, onSuccess, onFailure] {
+  CppUtils::ThreadPool::AcceptTask([this, data, size, onSuccess, onFailure] {
     try {
       auto result = AbstractFileInputStream::read(data, size);
       if (onSuccess) {
@@ -73,7 +73,7 @@ uint64_t AbstractFileInputStream::skip(uint64_t size) {
 void AbstractFileInputStream::skip(
     uint64_t size, const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  ThreadPool::AcceptTask([this, size, onSuccess, onFailure] {
+  CppUtils::ThreadPool::AcceptTask([this, size, onSuccess, onFailure] {
     try {
       auto result = AbstractFileInputStream::skip(size);
       if (onSuccess) {

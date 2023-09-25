@@ -1,13 +1,14 @@
 #pragma once
-#include "../bufferedstreams/bufferedoutputstream.h"
-#include "abstracts/abstractencryptedstream.h"
+#include "abstractencryptedstream.h"
+#include "bufferedoutputstream.h"
 
 namespace CppStreams {
 class EncryptedOutputStream : public BufferedOutputStream,
                               virtual protected AbstractEncryptedStream {
  public:
-  EncryptedOutputStream(const std::shared_ptr<Encryptor>& encryptor,
-                        const std::shared_ptr<OutputStream>& stream);
+  EncryptedOutputStream(
+      const std::shared_ptr<CppUtils::Encryption::Encryptor>& encryptor,
+      const std::shared_ptr<OutputStream>& stream);
 
  protected:
   EncryptedOutputStream(const std::shared_ptr<OutputStream>& stream,

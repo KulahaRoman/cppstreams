@@ -1,6 +1,6 @@
 #pragma once
-#include "../inputstream.h"
-#include "abstracts/abstractsocketinputstream.h"
+#include "abstractsocketinputstream.h"
+#include "inputstream.h"
 
 namespace CppStreams {
 class SocketInputStream : private AbstractSocketInputStream,

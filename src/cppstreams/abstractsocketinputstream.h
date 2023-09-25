@@ -1,5 +1,5 @@
 #pragma once
-#include <cpputils/threadpool/threadpool.h>
+#include <cpputils/threadpool.h>
 
 #include <memory>
 #include <stdexcept>

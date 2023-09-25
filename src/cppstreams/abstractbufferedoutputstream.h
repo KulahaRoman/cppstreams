@@ -1,12 +1,12 @@
 #pragma once
-#include <cpputils/threadpool/threadpool.h>
+#include <cpputils/threadpool.h>
 
 #include <cstdint>
 #include <memory>
 #include <utility>
 #include <vector>
 
-#include "../../outputstream.h"
+#include "outputstream.h"
 
 namespace CppStreams {
 class AbstractBufferedOutputStream {

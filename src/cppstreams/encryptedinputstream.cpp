@@ -6,7 +6,7 @@ EncryptedInputStream::EncryptedInputStream(
     : BufferedInputStream(stream, bufferSize) {}
 
 EncryptedInputStream::EncryptedInputStream(
-    const std::shared_ptr<Encryptor>& encryptor,
+    const std::shared_ptr<CppUtils::Encryption::Encryptor>& encryptor,
     const std::shared_ptr<InputStream>& stream)
     : BufferedInputStream(stream, encryptor->GetBlockSize()),
       AbstractEncryptedStream(encryptor) {}

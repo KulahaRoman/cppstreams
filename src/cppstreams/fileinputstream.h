@@ -1,6 +1,6 @@
 #pragma once
-#include "../inputstream.h"
-#include "abstracts/abstractfileinputstream.h"
+#include "abstractfileinputstream.h"
+#include "inputstream.h"
 
 namespace CppStreams {
 class FileInputStream : private AbstractFileInputStream, public InputStream {

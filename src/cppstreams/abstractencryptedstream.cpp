@@ -4,10 +4,11 @@ namespace CppStreams {
 AbstractEncryptedStream::AbstractEncryptedStream() {}
 
 AbstractEncryptedStream::AbstractEncryptedStream(
-    const std::shared_ptr<Encryptor>& encryptor)
+    const std::shared_ptr<CppUtils::Encryption::Encryptor>& encryptor)
     : encryptor(encryptor) {}
 
-std::shared_ptr<Encryptor> AbstractEncryptedStream::GetEncryptor() const {
+std::shared_ptr<CppUtils::Encryption::Encryptor>
+AbstractEncryptedStream::GetEncryptor() const {
   return encryptor;
 }
 }  // namespace CppStreams

@@ -1,6 +1,6 @@
 #pragma once
-#include "../inputstream.h"
-#include "abstracts/abstractbufferedinputstream.h"
+#include "abstractbufferedinputstream.h"
+#include "inputstream.h"
 
 namespace CppStreams {
 class BufferedInputStream : protected AbstractBufferedInputStream,

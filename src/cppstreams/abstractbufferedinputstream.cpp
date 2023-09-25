@@ -98,7 +98,7 @@ void AbstractBufferedInputStream::skip(
     auto nBytesToSkip = nBuffers * bufferSize;
 
     if (nBytesToSkip + bufferSize > stream->Available()) {
-      ThreadPool::AcceptTask([onFailure] {
+      CppUtils::ThreadPool::AcceptTask([onFailure] {
         if (onFailure) {
           onFailure(std::runtime_error(
               "Failed to skip bytes (insufficient bytes available)."));
@@ -137,7 +137,7 @@ void AbstractBufferedInputStream::skip(
   } else {
     readBufferPos += size;
 
-    ThreadPool::AcceptTask([onSuccess, size] {
+    CppUtils::ThreadPool::AcceptTask([onSuccess, size] {
       if (onSuccess) {
         onSuccess(size);
       }
