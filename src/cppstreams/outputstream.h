@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <functional>
 
+namespace CppStreams {
 class OutputStream {
  public:
   virtual uint64_t Write(const unsigned char* data, uint64_t size) = 0;
@@ -17,3 +18,4 @@ class OutputStream {
 
   virtual ~OutputStream() {}
 };
+}  // namespace CppStreams

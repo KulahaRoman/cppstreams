@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <functional>
 
+namespace CppStreams {
 class InputStream {
  public:
   virtual uint64_t Read(unsigned char* data, uint64_t size) = 0;
@@ -20,3 +21,4 @@ class InputStream {
 
   virtual ~InputStream() {}
 };
+}  // namespace CppStreams
