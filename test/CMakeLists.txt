@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.15)
 project(cppstreams-test)
 
 set(CPPSTREAMS_TEST_SRC	main.cpp
-						
+						src/filestreamtest.cpp
 )
 
 add_executable(${PROJECT_NAME} ${CPPSTREAMS_TEST_SRC})

@@ -3,8 +3,12 @@ CMakeSettings.json
 # Directories
 .vs
 .vscode
+
 build
 out
+bin
+lib
+include
 
 # Prerequisites
 *.d
