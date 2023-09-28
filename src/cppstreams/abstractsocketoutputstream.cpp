@@ -22,11 +22,9 @@ void AbstractSocketOutputStream::write(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   if (!size) {
-    CppUtils::ThreadPool::AcceptTask([onSuccess, size] {
-      if (onSuccess) {
-        onSuccess(size);
-      }
-    });
+    if (onSuccess) {
+      onSuccess(size);
+    }
     return;
   }
 
@@ -35,37 +33,30 @@ void AbstractSocketOutputStream::write(
       [this, onSuccess, onFailure](const auto& error,
                                    const auto& bytesWritten) {
         if (error) {
-          CppUtils::ThreadPool::AcceptTask([onFailure] {
-            if (onFailure) {
-              onFailure(
-                  std::runtime_error("Failed to write bytes (IO error)."));
-            }
-          });
+          if (onFailure) {
+            onFailure(std::runtime_error("Failed to write bytes (IO error)."));
+          }
           return;
         }
 
-        CppUtils::ThreadPool::AcceptTask([onSuccess, bytesWritten] {
-          if (onSuccess) {
-            onSuccess(bytesWritten);
-          }
-        });
+        if (onSuccess) {
+          onSuccess(bytesWritten);
+        }
       });
 }
 
 uint64_t AbstractSocketOutputStream::flush() {
   throw std::runtime_error(
-      "Unsupported stream method (Flush() for non-bufered stream).");
+      "Unsupported stream method (Flush() for non-buffered stream).");
   return 0ull;
 }
 
 void AbstractSocketOutputStream::flush(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  CppUtils::ThreadPool::AcceptTask([onFailure] {
-    if (onFailure) {
-      onFailure(std::runtime_error(
-          "Unsupported stream method (Flush() for non-bufered stream)."));
-    }
-  });
+  if (onFailure) {
+    onFailure(std::runtime_error(
+        "Unsupported stream method (Flush() for non-bufered stream)."));
+  }
 }
 }  // namespace CppStreams

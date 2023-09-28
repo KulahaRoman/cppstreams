@@ -1,6 +1,4 @@
 #pragma once
-#include <cpputils/threadpool.h>
-
 #include <stdexcept>
 
 #include "abstractsocketstream.h"
