@@ -2,6 +2,3 @@
 	path = libs/cpputils
 	url = https://github.com/KulahaRoman/cpputils.git
 
-[submodule "libs/gtest"]
-	path = libs/gtest
-	url = https://github.com/google/googletest.git
