@@ -2,7 +2,8 @@
 #include <boost/asio.hpp>
 
 namespace CppStreams {
-class AbstractSocketStream {
+class AbstractSocketStream
+    : public std::enable_shared_from_this<AbstractSocketStream> {
  protected:
   AbstractSocketStream();
   AbstractSocketStream(boost::asio::ip::tcp::socket&& socket);

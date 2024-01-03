@@ -7,10 +7,8 @@
 #include "outputstream.h"
 
 namespace CppStreams {
-class AbstractFileOutputStream
-    : public OutputStream,
-      virtual public AbstractFileStream,
-      public std::enable_shared_from_this<AbstractFileOutputStream> {
+class AbstractFileOutputStream : public OutputStream,
+                                 virtual public AbstractFileStream {
  public:
   uint64_t Write(const unsigned char* data, uint64_t size) override;
   void Write(

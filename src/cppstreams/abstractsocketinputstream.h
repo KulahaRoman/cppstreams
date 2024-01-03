@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include <stdexcept>
 #include <vector>
 
@@ -7,10 +6,8 @@
 #include "inputstream.h"
 
 namespace CppStreams {
-class AbstractSocketInputStream
-    : public InputStream,
-      virtual protected AbstractSocketStream,
-      public std::enable_shared_from_this<AbstractSocketInputStream> {
+class AbstractSocketInputStream : public InputStream,
+                                  virtual protected AbstractSocketStream {
  public:
   uint64_t Read(unsigned char* data, uint64_t size) override;
   void Read(

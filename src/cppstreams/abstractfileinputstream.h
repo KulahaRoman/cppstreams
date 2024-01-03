@@ -8,10 +8,8 @@
 #include "inputstream.h"
 
 namespace CppStreams {
-class AbstractFileInputStream
-    : public InputStream,
-      virtual public AbstractFileStream,
-      public std::enable_shared_from_this<AbstractFileInputStream> {
+class AbstractFileInputStream : public InputStream,
+                                virtual public AbstractFileStream {
  public:
   uint64_t Read(unsigned char* data, uint64_t size) override;
   void Read(

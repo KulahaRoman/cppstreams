@@ -5,10 +5,8 @@
 #include "outputstream.h"
 
 namespace CppStreams {
-class AbstractSocketOutputStream
-    : public OutputStream,
-      virtual protected AbstractSocketStream,
-      public std::enable_shared_from_this<AbstractSocketOutputStream> {
+class AbstractSocketOutputStream : public OutputStream,
+                                   virtual protected AbstractSocketStream {
  public:
   uint64_t Write(const unsigned char* data, uint64_t size) override;
   void Write(
