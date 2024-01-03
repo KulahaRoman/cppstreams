@@ -1,7 +1,7 @@
 #include "abstractsocketoutputstream.h"
 
 namespace CppStreams {
-uint64_t AbstractSocketOutputStream::write(const unsigned char* data,
+uint64_t AbstractSocketOutputStream::Write(const unsigned char* data,
                                            uint64_t size) {
   if (!size) {
     return size;
@@ -17,7 +17,7 @@ uint64_t AbstractSocketOutputStream::write(const unsigned char* data,
   return bytesWritten;
 }
 
-void AbstractSocketOutputStream::write(
+void AbstractSocketOutputStream::Write(
     const unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
@@ -30,8 +30,7 @@ void AbstractSocketOutputStream::write(
 
   boost::asio::async_write(
       socket, boost::asio::const_buffer(data, static_cast<size_t>(size)),
-      [this, onSuccess, onFailure,
-       self = std::shared_ptr<AbstractSocketOutputStream>(this)](
+      [this, onSuccess, onFailure, self = shared_from_this()](
           const auto& error, const auto& bytesWritten) {
         if (error) {
           if (onFailure) {
@@ -46,13 +45,13 @@ void AbstractSocketOutputStream::write(
       });
 }
 
-uint64_t AbstractSocketOutputStream::flush() {
+uint64_t AbstractSocketOutputStream::Flush() {
   throw std::runtime_error(
       "Unsupported stream method (Flush() for non-buffered stream).");
   return 0ull;
 }
 
-void AbstractSocketOutputStream::flush(
+void AbstractSocketOutputStream::Flush(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   if (onFailure) {

@@ -3,7 +3,7 @@
 namespace CppStreams {
 AbstractFileOutputStream::AbstractFileOutputStream() : ppos(0) {}
 
-uint64_t AbstractFileOutputStream::write(const unsigned char* data,
+uint64_t AbstractFileOutputStream::Write(const unsigned char* data,
                                          uint64_t size) {
   if (!size) {
     return size;
@@ -22,15 +22,14 @@ uint64_t AbstractFileOutputStream::write(const unsigned char* data,
   return size;
 }
 
-void AbstractFileOutputStream::write(
+void AbstractFileOutputStream::Write(
     const unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   CppUtils::ThreadPool::AcceptTask(
-      [this, data, size, onSuccess, onFailure,
-       self = std::shared_ptr<AbstractFileStream>(this)] {
+      [this, data, size, onSuccess, onFailure, self = shared_from_this()] {
         try {
-          auto result = AbstractFileOutputStream::write(data, size);
+          auto result = AbstractFileOutputStream::Write(data, size);
           if (onSuccess) {
             onSuccess(result);
           }
@@ -42,20 +41,19 @@ void AbstractFileOutputStream::write(
       });
 }
 
-uint64_t AbstractFileOutputStream::flush() {
+uint64_t AbstractFileOutputStream::Flush() {
   throw std::runtime_error(
       "Unsupported stream method (Flush() for non-bufered stream).");
   return 0ull;
 }
 
-void AbstractFileOutputStream::flush(
+void AbstractFileOutputStream::Flush(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   CppUtils::ThreadPool::AcceptTask(
-      [this, onSuccess, onFailure,
-       self = std::shared_ptr<AbstractFileStream>(this)] {
+      [this, onSuccess, onFailure, self = shared_from_this()] {
         try {
-          auto result = AbstractFileOutputStream::flush();
+          auto result = AbstractFileOutputStream::Flush();
           if (onSuccess) {
             onSuccess(result);
           }
