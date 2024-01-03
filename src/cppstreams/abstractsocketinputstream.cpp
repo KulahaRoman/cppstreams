@@ -39,8 +39,8 @@ void AbstractSocketInputStream::read(
 
   boost::asio::async_read(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
-      [this, tempBuffer, data, onSuccess, onFailure](const auto& error,
-                                                     const auto& bytesRead) {
+      [this, tempBuffer, data, onSuccess, onFailure, self = shared_from_this()](
+          const auto& error, const auto& bytesRead) {
         if (error) {
           if (onFailure) {
             onFailure(std::runtime_error("Failed to read bytes (IO error)."));
@@ -91,7 +91,8 @@ void AbstractSocketInputStream::skip(
 
   boost::asio::async_read(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
-      [this, onSuccess, onFailure](const auto& error, const auto& bytesRead) {
+      [this, onSuccess, onFailure, self = shared_from_this()](
+          const auto& error, const auto& bytesRead) {
         if (error) {
           if (onFailure) {
             onFailure(std::runtime_error("Failed to skip bytes (IO error)."));

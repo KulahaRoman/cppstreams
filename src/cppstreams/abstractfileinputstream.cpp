@@ -34,18 +34,19 @@ void AbstractFileInputStream::read(
     unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  CppUtils::ThreadPool::AcceptTask([this, data, size, onSuccess, onFailure] {
-    try {
-      auto result = AbstractFileInputStream::read(data, size);
-      if (onSuccess) {
-        onSuccess(result);
-      }
-    } catch (const std::exception& ex) {
-      if (onFailure) {
-        onFailure(ex);
-      }
-    }
-  });
+  CppUtils::ThreadPool::AcceptTask(
+      [this, data, size, onSuccess, onFailure, self = shared_from_this()] {
+        try {
+          auto result = AbstractFileInputStream::read(data, size);
+          if (onSuccess) {
+            onSuccess(result);
+          }
+        } catch (const std::exception& ex) {
+          if (onFailure) {
+            onFailure(ex);
+          }
+        }
+      });
 }
 
 uint64_t AbstractFileInputStream::skip(uint64_t size) {
@@ -73,18 +74,19 @@ uint64_t AbstractFileInputStream::skip(uint64_t size) {
 void AbstractFileInputStream::skip(
     uint64_t size, const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  CppUtils::ThreadPool::AcceptTask([this, size, onSuccess, onFailure] {
-    try {
-      auto result = AbstractFileInputStream::skip(size);
-      if (onSuccess) {
-        onSuccess(result);
-      }
-    } catch (const std::exception& ex) {
-      if (onFailure) {
-        onFailure(ex);
-      }
-    }
-  });
+  CppUtils::ThreadPool::AcceptTask(
+      [this, size, onSuccess, onFailure, self = shared_from_this()] {
+        try {
+          auto result = AbstractFileInputStream::skip(size);
+          if (onSuccess) {
+            onSuccess(result);
+          }
+        } catch (const std::exception& ex) {
+          if (onFailure) {
+            onFailure(ex);
+          }
+        }
+      });
 }
 
 uint64_t AbstractFileInputStream::available() {

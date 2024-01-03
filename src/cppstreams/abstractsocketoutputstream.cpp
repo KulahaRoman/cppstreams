@@ -30,8 +30,8 @@ void AbstractSocketOutputStream::write(
 
   boost::asio::async_write(
       socket, boost::asio::const_buffer(data, static_cast<size_t>(size)),
-      [this, onSuccess, onFailure](const auto& error,
-                                   const auto& bytesWritten) {
+      [this, onSuccess, onFailure, self = shared_from_this()](
+          const auto& error, const auto& bytesWritten) {
         if (error) {
           if (onFailure) {
             onFailure(std::runtime_error("Failed to write bytes (IO error)."));
