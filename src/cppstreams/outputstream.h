@@ -16,6 +16,6 @@ class OutputStream {
                      const std::function<void(const std::exception&)>&
                          onFailure = nullptr) = 0;
 
-  virtual ~OutputStream() {}
+  virtual ~OutputStream() = default;
 };
 }  // namespace CppStreams

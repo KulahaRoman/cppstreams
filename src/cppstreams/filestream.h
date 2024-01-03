@@ -6,7 +6,8 @@
 namespace CppStreams {
 class FileStream : private AbstractFileInputStream,
                    private AbstractFileOutputStream,
-                   public Stream {
+                   public Stream,
+                   public std::enable_shared_from_this<FileStream> {
  public:
   FileStream(const std::string& file, bool binary);
 

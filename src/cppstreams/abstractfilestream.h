@@ -4,8 +4,7 @@
 #include <stdexcept>
 
 namespace CppStreams {
-class AbstractFileStream
-    : public std::enable_shared_from_this<AbstractFileStream> {
+class AbstractFileStream {
  protected:
   AbstractFileStream();
   AbstractFileStream(const std::string& file,

@@ -7,46 +7,85 @@ FileStream::FileStream(const std::string& file, bool binary)
                     (binary ? std::ios::binary : std::ios::openmode(0))) {}
 
 uint64_t FileStream::Read(unsigned char* data, uint64_t size) {
-  return AbstractFileInputStream::Read(data, size);
+  return read(data, size);
 }
 
 void FileStream::Read(
     unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  AbstractFileInputStream::Read(data, size, onSuccess, onFailure);
+  read(
+      data, size,
+      [onSuccess, self = shared_from_this()](auto readBytes) {
+        if (onSuccess) {
+          onSuccess(readBytes);
+        }
+      },
+      [onFailure](const auto& exc) {
+        if (onFailure) {
+          onFailure(exc);
+        }
+      });
 }
 
-uint64_t FileStream::Skip(uint64_t nBytes) {
-  return AbstractFileInputStream::Skip(nBytes);
-}
+uint64_t FileStream::Skip(uint64_t nBytes) { return skip(nBytes); }
 
 void FileStream::Skip(
     uint64_t size, const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  AbstractFileInputStream::Skip(size, onSuccess, onFailure);
+  skip(
+      size,
+      [onSuccess, self = shared_from_this()](auto skippedBytes) {
+        if (onSuccess) {
+          onSuccess(skippedBytes);
+        }
+      },
+      [onFailure](const auto& exc) {
+        if (onFailure) {
+          onFailure(exc);
+        }
+      });
 }
 
-uint64_t FileStream::Available() {
-  return AbstractFileInputStream::Available();
-}
+uint64_t FileStream::Available() { return available(); }
 
 uint64_t FileStream::Write(const unsigned char* data, uint64_t size) {
-  return AbstractFileOutputStream::Write(data, size);
+  return write(data, size);
 }
 
 void FileStream::Write(
     const unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  AbstractFileOutputStream::Write(data, size, onSuccess, onFailure);
+  write(
+      data, size,
+      [onSuccess, self = shared_from_this()](auto writtenBytes) {
+        if (onSuccess) {
+          onSuccess(writtenBytes);
+        }
+      },
+      [onFailure](const auto& exc) {
+        if (onFailure) {
+          onFailure(exc);
+        }
+      });
 }
 
-uint64_t FileStream::Flush() { return AbstractFileOutputStream::Flush(); }
+uint64_t FileStream::Flush() { return flush(); }
 
 void FileStream::Flush(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  AbstractFileOutputStream::Flush(onSuccess, onFailure);
+  flush(
+      [onSuccess, self = shared_from_this()](auto flushedBytes) {
+        if (onSuccess) {
+          onSuccess(flushedBytes);
+        }
+      },
+      [onFailure](const auto& exc) {
+        if (onFailure) {
+          onFailure(exc);
+        }
+      });
 }
 }  // namespace CppStreams

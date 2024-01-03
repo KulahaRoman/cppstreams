@@ -6,7 +6,8 @@
 namespace CppStreams {
 class BufferedStream : protected AbstractBufferedInputStream,
                        protected AbstractBufferedOutputStream,
-                       public Stream {
+                       public Stream,
+                       public std::enable_shared_from_this<BufferedStream> {
  public:
   BufferedStream(const std::shared_ptr<Stream>& stream, uint64_t bufferSize);
 

@@ -3,8 +3,10 @@
 #include "outputstream.h"
 
 namespace CppStreams {
-class BufferedOutputStream : protected AbstractBufferedOutputStream,
-                             public OutputStream {
+class BufferedOutputStream
+    : protected AbstractBufferedOutputStream,
+      public OutputStream,
+      public std::enable_shared_from_this<BufferedOutputStream> {
  public:
   BufferedOutputStream(const std::shared_ptr<OutputStream>& stream,
                        uint64_t bufferSize);

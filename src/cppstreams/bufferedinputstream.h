@@ -3,8 +3,10 @@
 #include "inputstream.h"
 
 namespace CppStreams {
-class BufferedInputStream : protected AbstractBufferedInputStream,
-                            public InputStream {
+class BufferedInputStream
+    : protected AbstractBufferedInputStream,
+      public InputStream,
+      public std::enable_shared_from_this<BufferedInputStream> {
  public:
   BufferedInputStream(const std::shared_ptr<InputStream>& stream,
                       uint64_t bufferSize);

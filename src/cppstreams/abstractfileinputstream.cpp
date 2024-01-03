@@ -3,12 +3,12 @@
 namespace CppStreams {
 AbstractFileInputStream::AbstractFileInputStream() : gpos(0) {}
 
-uint64_t AbstractFileInputStream::Read(unsigned char* data, uint64_t size) {
+uint64_t AbstractFileInputStream::read(unsigned char* data, uint64_t size) {
   if (!size) {
     return size;
   }
 
-  auto bytesAvailable = AbstractFileInputStream::Available();
+  auto bytesAvailable = available();
   if (bytesAvailable < size) {
     throw std::runtime_error(
         "Failed to read bytes (insufficient bytes available).");
@@ -30,31 +30,30 @@ uint64_t AbstractFileInputStream::Read(unsigned char* data, uint64_t size) {
   return size;
 }
 
-void AbstractFileInputStream::Read(
+void AbstractFileInputStream::read(
     unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  CppUtils::ThreadPool::AcceptTask(
-      [this, data, size, onSuccess, onFailure, self = shared_from_this()] {
-        try {
-          auto result = AbstractFileInputStream::Read(data, size);
-          if (onSuccess) {
-            onSuccess(result);
-          }
-        } catch (const std::exception& ex) {
-          if (onFailure) {
-            onFailure(ex);
-          }
-        }
-      });
+  CppUtils::ThreadPool::AcceptTask([this, data, size, onSuccess, onFailure] {
+    try {
+      auto result = AbstractFileInputStream::read(data, size);
+      if (onSuccess) {
+        onSuccess(result);
+      }
+    } catch (const std::exception& ex) {
+      if (onFailure) {
+        onFailure(ex);
+      }
+    }
+  });
 }
 
-uint64_t AbstractFileInputStream::Skip(uint64_t size) {
+uint64_t AbstractFileInputStream::skip(uint64_t size) {
   if (!size) {
     return size;
   }
 
-  auto bytesAvailable = AbstractFileInputStream::Available();
+  auto bytesAvailable = available();
   if (bytesAvailable < size) {
     throw std::runtime_error(
         "Failed to skip bytes (insufficient bytes available).");
@@ -71,25 +70,24 @@ uint64_t AbstractFileInputStream::Skip(uint64_t size) {
   return size;
 }
 
-void AbstractFileInputStream::Skip(
+void AbstractFileInputStream::skip(
     uint64_t size, const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  CppUtils::ThreadPool::AcceptTask(
-      [this, size, onSuccess, onFailure, self = shared_from_this()] {
-        try {
-          auto result = AbstractFileInputStream::Skip(size);
-          if (onSuccess) {
-            onSuccess(result);
-          }
-        } catch (const std::exception& ex) {
-          if (onFailure) {
-            onFailure(ex);
-          }
-        }
-      });
+  CppUtils::ThreadPool::AcceptTask([this, size, onSuccess, onFailure] {
+    try {
+      auto result = AbstractFileInputStream::skip(size);
+      if (onSuccess) {
+        onSuccess(result);
+      }
+    } catch (const std::exception& ex) {
+      if (onFailure) {
+        onFailure(ex);
+      }
+    }
+  });
 }
 
-uint64_t AbstractFileInputStream::Available() {
+uint64_t AbstractFileInputStream::available() {
   auto currentGPos = gpos;
   file.seekg(0, std::ios::end);
   auto endGPos = file.tellg();

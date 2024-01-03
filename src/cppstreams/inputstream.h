@@ -19,6 +19,6 @@ class InputStream {
 
   virtual uint64_t Available() = 0;
 
-  virtual ~InputStream() {}
+  virtual ~InputStream() = default;
 };
 }  // namespace CppStreams

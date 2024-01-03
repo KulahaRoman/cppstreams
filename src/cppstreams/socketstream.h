@@ -6,7 +6,8 @@
 namespace CppStreams {
 class SocketStream : private AbstractSocketInputStream,
                      private AbstractSocketOutputStream,
-                     public Stream {
+                     public Stream,
+                     public std::enable_shared_from_this<SocketStream> {
  public:
   SocketStream(boost::asio::ip::tcp::socket&& socket);
 

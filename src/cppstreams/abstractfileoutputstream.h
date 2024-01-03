@@ -4,25 +4,20 @@
 #include <functional>
 
 #include "abstractfilestream.h"
-#include "outputstream.h"
 
 namespace CppStreams {
-class AbstractFileOutputStream : public OutputStream,
-                                 virtual public AbstractFileStream {
- public:
-  uint64_t Write(const unsigned char* data, uint64_t size) override;
-  void Write(
-      const unsigned char* data, uint64_t size,
-      const std::function<void(uint64_t)>& onSuccess,
-      const std::function<void(const std::exception&)>& onFailure) override;
-
-  uint64_t Flush() override;
-  void Flush(
-      const std::function<void(uint64_t)>& onSuccess,
-      const std::function<void(const std::exception&)>& onFailure) override;
-
+class AbstractFileOutputStream : virtual public AbstractFileStream {
  protected:
   AbstractFileOutputStream();
+
+  uint64_t write(const unsigned char* data, uint64_t size);
+  void write(const unsigned char* data, uint64_t size,
+             const std::function<void(uint64_t)>& onSuccess,
+             const std::function<void(const std::exception&)>& onFailure);
+
+  uint64_t flush();
+  void flush(const std::function<void(uint64_t)>& onSuccess,
+             const std::function<void(const std::exception&)>& onFailure);
 
  protected:
   std::streampos ppos;

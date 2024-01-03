@@ -1,7 +1,7 @@
 #include "abstractsocketinputstream.h"
 
 namespace CppStreams {
-uint64_t AbstractSocketInputStream::Read(unsigned char* data, uint64_t size) {
+uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
   if (!size) {
     return size;
   }
@@ -23,7 +23,7 @@ uint64_t AbstractSocketInputStream::Read(unsigned char* data, uint64_t size) {
   return bytesRead;
 }
 
-void AbstractSocketInputStream::Read(
+void AbstractSocketInputStream::read(
     unsigned char* data, uint64_t size,
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
@@ -39,8 +39,8 @@ void AbstractSocketInputStream::Read(
 
   boost::asio::async_read(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
-      [this, tempBuffer, data, onSuccess, onFailure, self = shared_from_this()](
-          const auto& error, const auto& bytesRead) {
+      [this, tempBuffer, data, onSuccess, onFailure](const auto& error,
+                                                     const auto& bytesRead) {
         if (error) {
           if (onFailure) {
             onFailure(std::runtime_error("Failed to read bytes (IO error)."));
@@ -57,7 +57,7 @@ void AbstractSocketInputStream::Read(
       });
 }
 
-uint64_t AbstractSocketInputStream::Skip(uint64_t nBytes) {
+uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
   if (!nBytes) {
     return nBytes;
   }
@@ -76,23 +76,22 @@ uint64_t AbstractSocketInputStream::Skip(uint64_t nBytes) {
   return bytesSkipped;
 }
 
-void AbstractSocketInputStream::Skip(
-    uint64_t nBytes, const std::function<void(uint64_t)>& onSuccess,
+void AbstractSocketInputStream::skip(
+    uint64_t size, const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
-  if (!nBytes) {
+  if (!size) {
     if (onSuccess) {
-      onSuccess(nBytes);
+      onSuccess(size);
     }
     return;
   }
 
   auto tempBuffer =
-      std::make_shared<std::vector<unsigned char>>(static_cast<size_t>(nBytes));
+      std::make_shared<std::vector<unsigned char>>(static_cast<size_t>(size));
 
   boost::asio::async_read(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
-      [this, onSuccess, onFailure, self = shared_from_this()](
-          const auto& error, const auto& bytesRead) {
+      [this, onSuccess, onFailure](const auto& error, const auto& bytesRead) {
         if (error) {
           if (onFailure) {
             onFailure(std::runtime_error("Failed to skip bytes (IO error)."));
@@ -106,7 +105,7 @@ void AbstractSocketInputStream::Skip(
       });
 }
 
-uint64_t AbstractSocketInputStream::Available() {
+uint64_t AbstractSocketInputStream::available() {
   return static_cast<uint64_t>(socket.available());
 }
 }  // namespace CppStreams
