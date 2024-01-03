@@ -10,6 +10,7 @@ AbstractSocketStream::AbstractSocketStream(
 AbstractSocketStream::~AbstractSocketStream() {
   if (socket.is_open()) {
     try {
+      socket.cancel();
       socket.shutdown(boost::asio::socket_base::shutdown_both);
       socket.close();
     } catch (...) {
