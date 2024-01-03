@@ -39,7 +39,8 @@ void AbstractSocketInputStream::read(
 
   boost::asio::async_read(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
-      [this, tempBuffer, data, onSuccess, onFailure, self = shared_from_this()](
+      [this, tempBuffer, data, onSuccess, onFailure,
+       self = std::shared_ptr<AbstractSocketInputStream>(this)](
           const auto& error, const auto& bytesRead) {
         if (error) {
           if (onFailure) {
@@ -91,7 +92,8 @@ void AbstractSocketInputStream::skip(
 
   boost::asio::async_read(
       socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()),
-      [this, onSuccess, onFailure, self = shared_from_this()](
+      [this, onSuccess, onFailure,
+       self = std::shared_ptr<AbstractSocketInputStream>(this)](
           const auto& error, const auto& bytesRead) {
         if (error) {
           if (onFailure) {

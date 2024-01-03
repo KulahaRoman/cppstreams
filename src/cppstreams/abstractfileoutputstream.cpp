@@ -27,7 +27,8 @@ void AbstractFileOutputStream::write(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   CppUtils::ThreadPool::AcceptTask(
-      [this, data, size, onSuccess, onFailure, self = shared_from_this()] {
+      [this, data, size, onSuccess, onFailure,
+       self = std::shared_ptr<AbstractFileStream>(this)] {
         try {
           auto result = AbstractFileOutputStream::write(data, size);
           if (onSuccess) {
@@ -51,7 +52,8 @@ void AbstractFileOutputStream::flush(
     const std::function<void(uint64_t)>& onSuccess,
     const std::function<void(const std::exception&)>& onFailure) {
   CppUtils::ThreadPool::AcceptTask(
-      [this, onSuccess, onFailure, self = shared_from_this()] {
+      [this, onSuccess, onFailure,
+       self = std::shared_ptr<AbstractFileStream>(this)] {
         try {
           auto result = AbstractFileOutputStream::flush();
           if (onSuccess) {
