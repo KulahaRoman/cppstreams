@@ -15,19 +15,9 @@ class AbstractBufferedOutputStream {
                                uint64_t bufferSize);
 
   uint64_t write(const unsigned char* data, uint64_t size);
-  void write(const unsigned char* data, uint64_t size,
-             const std::function<void(uint64_t)>& onSuccess,
-             const std::function<void(const std::exception&)>& onFailure);
-
   uint64_t flush();
-  void flush(const std::function<void(uint64_t)>& onSuccess,
-             const std::function<void(const std::exception&)>& onFailure);
 
  private:
-  void write(const unsigned char* data, uint64_t size, uint64_t writtenDataSize,
-             const std::function<void(uint64_t)>& onSuccess,
-             const std::function<void(const std::exception&)>& onFailure);
-
   virtual void processWriteBuffer();
   void writePortion(const unsigned char* data, uint64_t size,
                     uint64_t& writtenDataSize);

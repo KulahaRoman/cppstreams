@@ -12,21 +12,8 @@ uint64_t EncryptedStream::Read(unsigned char* data, uint64_t size) {
   return EncryptedInputStream::Read(data, size);
 }
 
-void EncryptedStream::Read(
-    unsigned char* data, uint64_t size,
-    const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const std::exception&)>& onFailure) {
-  EncryptedInputStream::Read(data, size, onSuccess, onFailure);
-}
-
 uint64_t EncryptedStream::Skip(uint64_t nBytes) {
   return EncryptedInputStream::Skip(nBytes);
-}
-
-void EncryptedStream::Skip(
-    uint64_t size, const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const std::exception&)>& onFailure) {
-  EncryptedInputStream::Skip(size, onSuccess, onFailure);
 }
 
 uint64_t EncryptedStream::Available() {
@@ -38,18 +25,5 @@ uint64_t EncryptedStream::Write(const unsigned char* data,
   return EncryptedOutputStream::Write(data, size);
 }
 
-void EncryptedStream::Write(
-    const unsigned char* data, uint64_t size,
-    const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const std::exception&)>& onFailure) {
-  EncryptedOutputStream::Write(data, size, onSuccess, onFailure);
-}
-
 uint64_t EncryptedStream::Flush() { return EncryptedOutputStream::Flush(); }
-
-void EncryptedStream::Flush(
-    const std::function<void(uint64_t)>& onSuccess,
-    const std::function<void(const std::exception&)>& onFailure) {
-  EncryptedOutputStream::Flush(onSuccess, onFailure);
-}
 }  // namespace CppStreams
