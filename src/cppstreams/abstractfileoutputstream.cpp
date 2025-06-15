@@ -14,7 +14,7 @@ uint64_t AbstractFileOutputStream::write(const unsigned char* data,
   try {
     file.write(reinterpret_cast<const char*>(data), size);
   } catch (...) {
-    throw std::runtime_error("Failed to write bytes (IO error).");
+    throw std::runtime_error("failed to write bytes (IO error)");
   }
 
   ppos += size;
@@ -24,7 +24,7 @@ uint64_t AbstractFileOutputStream::write(const unsigned char* data,
 
 uint64_t AbstractFileOutputStream::flush() {
   throw std::runtime_error(
-      "Unsupported stream method (Flush() for non-bufered stream).");
+      "unsupported stream method (Flush() for non-bufered stream)");
   return 0ull;
 }
 }  // namespace CppStreams

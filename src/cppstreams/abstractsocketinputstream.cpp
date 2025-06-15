@@ -15,7 +15,7 @@ uint64_t AbstractSocketInputStream::read(unsigned char* data, uint64_t size) {
     bytesRead = boost::asio::read(
         socket, boost::asio::buffer(tempBuffer->data(), tempBuffer->size()));
   } catch (...) {
-    throw std::runtime_error("Failed to read bytes (IO error).");
+    throw std::runtime_error("failed to read bytes (IO error)");
   }
 
   std::copy(tempBuffer->data(), tempBuffer->data() + tempBuffer->size(), data);
@@ -36,7 +36,7 @@ uint64_t AbstractSocketInputStream::skip(uint64_t nBytes) {
     bytesSkipped = boost::asio::read(
         socket, boost::asio::buffer(tempBuffer.data(), tempBuffer.size()));
   } catch (...) {
-    throw std::runtime_error("Failed to skip bytes (IO error).");
+    throw std::runtime_error("failed to skip bytes (IO error)");
   }
 
   return bytesSkipped;

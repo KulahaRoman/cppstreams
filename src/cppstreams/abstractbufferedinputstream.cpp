@@ -50,7 +50,7 @@ uint64_t AbstractBufferedInputStream::skip(uint64_t size) {
 
     if (nBytesToSkip + bufferSize > stream->Available()) {
       throw std::runtime_error(
-          "Failed to skip bytes (insufficient bytes available).");
+          "failed to skip bytes (insufficient bytes available)");
     }
 
     stream->Skip(nBytesToSkip);
